@@ -20,7 +20,7 @@ module.exports = async (req, res) => {
               }
             );
             fs.unlinkSync(image.path);
-            uploaded_images.push({ src: upload_result.url });
+            uploaded_images.push({ src: upload_result.secure_url });
           } catch (error) {
             reject(error);
           }
