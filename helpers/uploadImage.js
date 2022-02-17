@@ -12,9 +12,9 @@ const excelFilter = (req, file, cb) => {
 };
 
 const storage = multer.diskStorage({
-  destination: function (req, file, callback) {
-    callback(null, __dirname + "\\upload");
-  },
+  // destination: function (req, file, callback) {
+  //   callback(null, __dirname + "\\upload");
+  // },
   filename: function (req, file, cb) {
     const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
     cb(null, file.originalname.split(".")[0] + "-" + uniqueSuffix);

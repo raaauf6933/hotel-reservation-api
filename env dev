@@ -1,2 +1,2 @@
-DB_URL=mongodb://localhost/hotel-reservation-api
+DB_URL=mongodb+srv://hotel-reservation-api:hotel-app@cluster0.h2emn.mongodb.net/villa-gregoria-resort-dev?retryWrites=true&w=majority
 jwtPrivateKey=hotelreservationapp

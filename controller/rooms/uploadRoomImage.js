@@ -19,7 +19,7 @@ module.exports = async (req, res) => {
                 folder: "ROOM_IMAGES",
               }
             );
-            fs.unlinkSync(image.path);
+            // fs.unlinkSync(image.path);
             uploaded_images.push({ src: upload_result.secure_url });
           } catch (error) {
             reject(error);
