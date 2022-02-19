@@ -8,6 +8,7 @@ const cloudStorage = require("./startup/cloudStorage");
 const rooms = require("./routes/rooms");
 const bookings = require("./routes/bookings");
 const auth = require("./routes/auth");
+const user = require("./routes/users");
 require("dotenv").config();
 
 app.use(
@@ -29,6 +30,7 @@ mongoose
 app.use("/api/auth", auth);
 app.use("/api/admin/booking", bookings);
 app.use("/api/admin/room_types", rooms);
+app.use("/api/admin/user", user);
 
 const port = process.env.PORT || 5000;
 app.listen(port, () => console.log(`Listening on port ${port}`));
