@@ -70,11 +70,7 @@ router.post("/create_booking", async (req, res) => {
 
   try {
     let result = await newBookings.save();
-
-    await sendEmail({
-      ...result._doc,
-    });
-
+    await sendEmail(result);
     res.status(200).send(newBookings);
   } catch (error) {
     console.log(error);

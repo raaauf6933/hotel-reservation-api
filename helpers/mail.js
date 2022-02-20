@@ -1,7 +1,8 @@
 const mailer = require("nodemailer");
-const { htmlTemplate } = require("./emailTemplate");
+const createBookingEmail = require("./emailTemplate/createBookingEmail");
 
-const sendEmail = ({ guest, booking_reference, ...rest }, body) => {
+const sendEmail = (booking, body) => {
+  const { guest } = booking;
   const { email } = guest;
 
   const smtpTransport = mailer.createTransport({
@@ -13,8 +14,8 @@ const sendEmail = ({ guest, booking_reference, ...rest }, body) => {
     // },
     service: "gmail",
     auth: {
-      user: "kellinquinn180@gmail.com",
-      pass: "@@Ra0302aO",
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
     },
   });
 
@@ -22,14 +23,19 @@ const sendEmail = ({ guest, booking_reference, ...rest }, body) => {
     from: "youremail@gmail.com",
     to: email,
     subject: "Sending Email using Node.js",
-
-    html: htmlTemplate({ ...guest, booking_reference, ...rest }),
+    html: createBookingEmail(booking),
+    attachments: [
+      {
+        filename: "check_image.png",
+        path: __dirname + "/emailTemplate/check_image.png",
+        cid: "logo", //same cid value as in the html img src
+      },
+    ],
   };
 
   return new Promise((resolve, reject) => {
     smtpTransport.sendMail(mailOptions, function (error, info) {
       if (error) {
-        console.log(error);
         reject(error);
       } else {
         console.log("Email sent: " + info.response);
