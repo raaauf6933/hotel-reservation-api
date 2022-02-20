@@ -5,6 +5,7 @@ const { createBookingReference, getNewStatus } = require("../utils/misc");
 const { bookingStatus, bookingType } = require("../utils/enums");
 const { createEvent, eventType } = require("../helpers/events");
 const { listenerCount } = require("../models/bookings/bookings");
+const sendEmail = require("./../helpers/mail");
 
 // Get Bookings
 router.get("/", async (req, res) => {
@@ -68,9 +69,15 @@ router.post("/create_booking", async (req, res) => {
   });
 
   try {
-    await newBookings.save();
+    let result = await newBookings.save();
+
+    await sendEmail({
+      ...result._doc,
+    });
+
     res.status(200).send(newBookings);
   } catch (error) {
+    console.log(error);
     res.status(400).send(error);
   }
 });
