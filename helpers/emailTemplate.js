@@ -447,14 +447,14 @@ exports.htmlTemplate = (body) => {
       <tr>
         <td colspan="5" style="color: #6b6b6b">
           * Payment is available only for Bank Deposit / BDO Account number -
-          006844224985 | BDO Account name - Blue Garden Resort
+          006844224985 | BDO Account name - Villa Gregoria Resort
         </td>
       </tr>
       <tr>
         <td colspan="5" style="color: #6b6b6b">
           * Deposit your 50% Downpayment to bank, <br />and upload your picture
           of bank receipt here
-          <a href="http://bluegardenresort.com/myBooking.html" target="_blank"
+          <a href="https://villagregoriaresort.com/my-booking?awakeNavBar=true" target="_blank"
             >My Booking</a
           >
         </td>
