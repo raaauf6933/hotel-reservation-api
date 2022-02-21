@@ -70,7 +70,7 @@ router.post("/create_booking", async (req, res) => {
 
   try {
     let result = await newBookings.save();
-    await sendEmail(result);
+    await sendEmail(result, { type: bookingStatus.PENDING });
     res.status(200).send(newBookings);
   } catch (error) {
     console.log(error);
@@ -92,6 +92,10 @@ router.post("/update_booking_status", async (req, res) => {
         }),
       },
     });
+
+    if (status === "PENDING") {
+      await sendEmail(result, { type: bookingStatus.CONFIRMED });
+    }
 
     res.status(200).send(result);
   } catch (error) {
