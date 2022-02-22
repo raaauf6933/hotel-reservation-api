@@ -6,6 +6,9 @@ const { bookingStatus, bookingType } = require("../utils/enums");
 const { createEvent, eventType } = require("../helpers/events");
 const { listenerCount } = require("../models/bookings/bookings");
 const sendEmail = require("./../helpers/mail");
+const upload = require("../helpers/uploadImage");
+const uploadReceiptImage = require("../controller/uploadReceiptImage");
+const multer = require("multer");
 
 // Get Bookings
 router.get("/", async (req, res) => {
@@ -70,7 +73,7 @@ router.post("/create_booking", async (req, res) => {
 
   try {
     let result = await newBookings.save();
-    await sendEmail(result, { type: bookingStatus.PENDING });
+    sendEmail(result, { type: bookingStatus.PENDING });
     res.status(200).send(newBookings);
   } catch (error) {
     console.log(error);
@@ -94,7 +97,7 @@ router.post("/update_booking_status", async (req, res) => {
     });
 
     if (status === "PENDING") {
-      await sendEmail(result, { type: bookingStatus.CONFIRMED });
+      sendEmail(result, { type: bookingStatus.CONFIRMED });
     }
 
     res.status(200).send(result);
@@ -102,5 +105,27 @@ router.post("/update_booking_status", async (req, res) => {
     res.status(400).send({ status: "failed", message: error.message });
   }
 });
+
+router.post(
+  "/upload_receipt",
+  async (req, res, next) => {
+    upload(req, res, function (err) {
+      if (err instanceof multer.MulterError) {
+        return res.status(500).json({
+          success: false,
+          message: "Internal server error",
+        });
+      } else if (err) {
+        return res.status(400).json({
+          success: false,
+          error: "Invalid file format. Please use valid image file (png/jpg)",
+        });
+      }
+      next();
+    });
+  },
+
+  uploadReceiptImage
+);
 
 module.exports = router;

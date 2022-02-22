@@ -18,20 +18,7 @@ router.post("/client", async (req, res) => {
     });
     if (!result) throw { message: "invalid credentials" };
 
-    const token = generateAuthToken(
-      _.pick(result, [
-        "_id",
-        "booking_reference",
-        "check_in",
-        "check_out",
-        "guest",
-        "rooms",
-        "status",
-        "createdAt",
-        "billing",
-        "expiration_date",
-      ])
-    );
+    const token = generateAuthToken(_.pick(result, ["_id"]));
 
     res.status(200).send({ token });
   } catch (error) {

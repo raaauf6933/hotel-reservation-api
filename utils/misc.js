@@ -18,6 +18,17 @@ exports.generateAuthToken = (data) => {
   return token;
 };
 
+exports.currencyFormat = (number) => {
+  const formatter = new Intl.NumberFormat("en-PH", {
+    currency: "PHP",
+    currencyDisplay: "code",
+    minimumFractionDigits: 2,
+    style: "currency",
+  });
+
+  return formatter.format(number);
+};
+
 exports.getNewStatus = (status) => {
   switch (status) {
     case bookingStatus.PENDING:
