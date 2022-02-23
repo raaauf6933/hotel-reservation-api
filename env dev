@@ -1,2 +1,8 @@
 DB_URL=mongodb+srv://hotel-reservation-api:hotel-app@cluster0.h2emn.mongodb.net/villa-gregoria-resort-dev?retryWrites=true&w=majority
 jwtPrivateKey=hotelreservationapp
+EMAIL_USER=kellinquinn180@gmail.com
+
+CLIENT_ID=610872631269-un4rljklhofn6415irm5b878c52kvgrv.apps.googleusercontent.com
+CLIENT_SECRET=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
+REDIRECT_URI=https://developers.google.com/oauthplayground
+REFRESH_TOKEN=1//04OD03jJUv2rlCgYIARAAGAQSNwF-L9Irqgfx8OWwQi4a2q8Alq08lhwmzpU7-zmiM39bJjtopudZ8qgsfZsZlIpLA1quMGVRi8A
