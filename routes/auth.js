@@ -42,7 +42,12 @@ router.post("/admin", async (req, res) => {
       .status(400)
       .send({ status: "failed", message: "Invalid email or password." });
 
-  const token = generateAuthToken({ _id: user._id, username: user.username });
+  const token = generateAuthToken({
+    _id: user._id,
+    username: user.username,
+    first_name: user.first_name,
+    last_name: user.last_name,
+  });
   res.status(200).send({ status: "success", token });
 });
 
