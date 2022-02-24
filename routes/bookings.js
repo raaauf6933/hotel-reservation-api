@@ -9,6 +9,8 @@ const sendEmail = require("./../helpers/mail");
 const upload = require("../helpers/uploadImage");
 const uploadReceiptImage = require("../controller/uploadReceiptImage");
 const multer = require("multer");
+const moment = require("moment");
+const getPaymentAmount = require("../controller/bookings/getPaymentAmount");
 
 // Get Bookings
 router.get("/", async (req, res) => {
@@ -25,7 +27,17 @@ router.post("/", async (req, res) => {
   const { body } = req;
   try {
     const booking = await Bookings.findById(body.id);
-    res.status(200).send(booking);
+
+    const payment_amount = await getPaymentAmount(body.id);
+
+    const total_balance =
+      parseFloat(booking?.billing.total_amount) - parseFloat(payment_amount);
+
+    res.status(200).send({
+      ...booking._doc,
+      payment_amount: payment_amount,
+      total_balance: total_balance,
+    });
   } catch (error) {
     // not found
     if (error.kind === "ObjectId") {
@@ -69,6 +81,7 @@ router.post("/create_booking", async (req, res) => {
       total_amount: body.totalAmount,
     },
     events: [createEvent(eventType.BOOKING_CREATED)],
+    payment: [],
   });
 
   try {
@@ -83,7 +96,7 @@ router.post("/create_booking", async (req, res) => {
 
 router.post("/update_booking_status", async (req, res) => {
   const { body } = req;
-  const { id, status } = body;
+  const { id, status, paymentAmount } = body;
 
   try {
     const result = await Bookings.findByIdAndUpdate(id, {
@@ -92,6 +105,19 @@ router.post("/update_booking_status", async (req, res) => {
         events: createEvent(eventType.UPDATE_STATUS, {
           status: getNewStatus(status),
           user: "",
+        }),
+        payment: {
+          payment_amount: paymentAmount,
+          created: moment.tz("Asia/Manila").format(),
+        },
+      },
+    });
+
+    await Bookings.findByIdAndUpdate(id, {
+      $push: {
+        events: createEvent(eventType.PAYMENT_CAPTURED, {
+          user: "",
+          amount: paymentAmount,
         }),
       },
     });

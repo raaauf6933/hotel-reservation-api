@@ -3,6 +3,7 @@ const moment = require("moment-timezone");
 const BOOKING_CREATED = "BOOKING_CREATED";
 const UPDATE_STATUS = "UPDATE_STATUS";
 const GUEST_IMAGE_UPLOAD = "GUEST_IMAGE_UPLOAD";
+const PAYMENT_CAPTURED = "PAYMENT_CAPTURED";
 
 exports.createEvent = (type, params) => {
   switch (type) {
@@ -39,6 +40,17 @@ exports.createEvent = (type, params) => {
         additional_type: "",
         created: moment.tz("Asia/Manila").format(),
       };
+    case PAYMENT_CAPTURED:
+      return {
+        type: "PAYMENT_CAPTURED",
+        message: `Guest Paid`,
+        images: [],
+        user: "",
+        amount: params.amount,
+        quantity: 0,
+        additional_type: "",
+        created: moment.tz("Asia/Manila").format(),
+      };
     default:
       break;
   }
@@ -48,4 +60,5 @@ exports.eventType = {
   BOOKING_CREATED,
   UPDATE_STATUS,
   GUEST_IMAGE_UPLOAD,
+  PAYMENT_CAPTURED,
 };

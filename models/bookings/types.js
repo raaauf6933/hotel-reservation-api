@@ -109,3 +109,20 @@ exports.billing = () => {
     },
   });
 };
+
+exports.payment = () => {
+  return new mongoose.Schema({
+    type: Array,
+
+    default: [
+      new mongoose.Schema({
+        payment_amount: {
+          type: String,
+        },
+        created: {
+          type: Number,
+        },
+      }),
+    ],
+  });
+};
