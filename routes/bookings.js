@@ -1,16 +1,24 @@
 const express = require("express");
 const router = express.Router();
 const Bookings = require("../models/bookings/bookings");
-const { createBookingReference, getNewStatus } = require("../utils/misc");
+const {
+  createBookingReference,
+  getNewStatus,
+  IsJsonString,
+} = require("../utils/misc");
 const { bookingStatus, bookingType } = require("../utils/enums");
 const { createEvent, eventType } = require("../helpers/events");
-const { listenerCount } = require("../models/bookings/bookings");
 const sendEmail = require("./../helpers/mail");
 const upload = require("../helpers/uploadImage");
 const uploadReceiptImage = require("../controller/uploadReceiptImage");
 const multer = require("multer");
 const moment = require("moment");
 const getPaymentAmount = require("../controller/bookings/getPaymentAmount");
+const {
+  updatePending,
+  updateConfirmed,
+  updateCheckIn,
+} = require("./../controller/bookings/updateBookingStatus");
 
 // Get Bookings
 router.get("/", async (req, res) => {
@@ -27,9 +35,7 @@ router.post("/", async (req, res) => {
   const { body } = req;
   try {
     const booking = await Bookings.findById(body.id);
-
     const payment_amount = await getPaymentAmount(body.id);
-
     const total_balance =
       parseFloat(booking?.billing.total_amount) - parseFloat(payment_amount);
 
@@ -82,6 +88,8 @@ router.post("/create_booking", async (req, res) => {
     },
     events: [createEvent(eventType.BOOKING_CREATED)],
     payment: [],
+    createdAt: moment.tz("Asia/Manila").format(),
+    updatedAt: moment.tz("Asia/Manila").format(),
   });
 
   try {
@@ -99,36 +107,28 @@ router.post("/update_booking_status", async (req, res) => {
   const { id, status, paymentAmount } = body;
 
   try {
-    const result = await Bookings.findByIdAndUpdate(id, {
-      status: getNewStatus(status),
-      $push: {
-        events: createEvent(eventType.UPDATE_STATUS, {
-          status: getNewStatus(status),
-          user: "",
-        }),
-        payment: {
-          payment_amount: paymentAmount,
-          created: moment.tz("Asia/Manila").format(),
-        },
-      },
-    });
-
-    await Bookings.findByIdAndUpdate(id, {
-      $push: {
-        events: createEvent(eventType.PAYMENT_CAPTURED, {
-          user: "",
-          amount: paymentAmount,
-        }),
-      },
-    });
-
-    if (status === "PENDING") {
-      sendEmail(result, { type: bookingStatus.CONFIRMED });
+    let result;
+    switch (status) {
+      case bookingStatus.PENDING:
+        result = await updatePending({ id, status, paymentAmount });
+        break;
+      case bookingStatus.CONFIRMED:
+        result = await updateConfirmed({ id, status, paymentAmount });
+        break;
+      case bookingStatus.CHECK_IN:
+        result = await updateCheckIn({ id, status, paymentAmount });
+        break;
+      default:
+        break;
     }
 
     res.status(200).send(result);
   } catch (error) {
-    res.status(400).send({ status: "failed", message: error.message });
+    if (IsJsonString(error.message)) {
+      res.status(400).send({ status: "failed", ...JSON.parse(error.message) });
+    } else {
+      res.status(400).send({ status: "failed", message: error.message });
+    }
   }
 });
 
