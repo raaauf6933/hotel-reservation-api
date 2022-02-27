@@ -1,4 +1,4 @@
-const moment = require("moment");
+const moment = require("moment-timezone");
 const { currencyFormat } = require("./../../utils/misc");
 
 module.exports = (body) => {
@@ -20,8 +20,6 @@ module.exports = (body) => {
     city,
     province,
   } = guest;
-
-  const format_expirationDate = new Date(expiration_date);
 
   const getNoQuantity = (roomtype_id) => {
     return rooms.filter((obj) => obj.roomtype_id === roomtype_id).length;
@@ -280,8 +278,10 @@ module.exports = (body) => {
       <ul>
   <li style="font-size: 14px; line-height: 23.8px; text-align: left;"><span style="font-size: 18px; line-height: 30.6px;">Please pay at least 50% of total amount in order to confirm your booking</span></li>
   <li style="font-size: 14px; line-height: 23.8px; text-align: left;"><span style="font-size: 18px; line-height: 30.6px;">This booking is valid until <span style="text-decoration: underline; font-size: 18px; line-height: 30.6px;"><em><strong>${moment(
-    format_expirationDate
-  ).format("LLL")}</strong></em></span></span></li>
+    expiration_date
+  )
+    .tz("Asia/Manila")
+    .format("LLL")}</strong></em></span></span></li>
   <li style="font-size: 14px; line-height: 23.8px; text-align: left;"><span style="font-size: 18px; line-height: 30.6px;"><span style="font-size: 18px; line-height: 30.6px;">Failure of payment will automatically cancel your booking</span></span></li>
   </ul>
     </div>

@@ -14,10 +14,6 @@ let expiration_date = moment("2022-02-27T12:37:00+08:00")
   // .add(1, "minute")
   .format("YYYY-MM-DD HH:mm");
 
-console.log(date_time_today.format());
-console.log(expiration_date);
-let isExpired =
-  date_time_today.format("YYYY-MM-DD HH:mm") === expiration_date ||
-  date_time_today.isAfter(expiration_date);
-
-console.log(isExpired);
+console.log(
+  moment("2022-02-27T23:59:59+08:00").tz("Asia/Manila").format("LLL")
+);
