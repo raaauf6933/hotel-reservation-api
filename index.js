@@ -12,6 +12,8 @@ const user = require("./routes/users");
 const email = require("./routes/emailTest");
 const reports = require("./routes/reports");
 
+const { expiredBooking } = require("./startup/cronJobs");
+
 require("dotenv").config();
 
 app.use(
@@ -23,6 +25,7 @@ app.use(
 );
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
 cloudStorage();
 
 mongoose
@@ -30,6 +33,10 @@ mongoose
   .then(() => console.log(`db connected`))
   .catch((err) => console.log(err));
 
+// Cron Jobs
+expiredBooking();
+
+// API Routes
 app.use("/api/auth", auth);
 app.use("/api/admin/booking", bookings);
 app.use("/api/admin/room_types", rooms);

@@ -4,6 +4,7 @@ const BOOKING_CREATED = "BOOKING_CREATED";
 const UPDATE_STATUS = "UPDATE_STATUS";
 const GUEST_IMAGE_UPLOAD = "GUEST_IMAGE_UPLOAD";
 const PAYMENT_CAPTURED = "PAYMENT_CAPTURED";
+const UPDATE_EXPIRED = "UPDATE_EXPIRED";
 
 exports.createEvent = (type, params) => {
   switch (type) {
@@ -51,6 +52,17 @@ exports.createEvent = (type, params) => {
         additional_type: "",
         created: moment.tz("Asia/Manila").format(),
       };
+    case UPDATE_EXPIRED:
+      return {
+        type: "UPDATE_EXPIRED",
+        message: `Booking Expired`,
+        images: [],
+        user: "",
+        amount: 0,
+        quantity: 0,
+        additional_type: "",
+        created: moment.tz("Asia/Manila").format(),
+      };
     default:
       break;
   }
@@ -61,4 +73,5 @@ exports.eventType = {
   UPDATE_STATUS,
   GUEST_IMAGE_UPLOAD,
   PAYMENT_CAPTURED,
+  UPDATE_EXPIRED,
 };

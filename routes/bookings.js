@@ -12,13 +12,13 @@ const sendEmail = require("./../helpers/mail");
 const upload = require("../helpers/uploadImage");
 const uploadReceiptImage = require("../controller/uploadReceiptImage");
 const multer = require("multer");
-const moment = require("moment");
 const getPaymentAmount = require("../controller/bookings/getPaymentAmount");
 const {
   updatePending,
   updateConfirmed,
   updateCheckIn,
 } = require("./../controller/bookings/updateBookingStatus");
+const moment = require("moment-timezone");
 
 // Get Bookings
 router.get("/", async (req, res) => {
@@ -64,9 +64,9 @@ router.post("/create_booking", async (req, res) => {
   const { body } = req;
 
   const booking_reference = createBookingReference();
-
+  let date_time_today = moment.tz("Asia/Manila");
   // Create Billing
-
+  console.log(date_time_today);
   const createNewBilling = () => {
     const { rooms } = body;
     let total_amount = 0;
@@ -77,9 +77,23 @@ router.post("/create_booking", async (req, res) => {
     return total_amount;
   };
 
+  const createExpirationDate = () => {
+    const check_in_format = moment(body.check_in).format("YYYY-MM-DD");
+    const tommorow_check_in =
+      moment.tz("Asia/Manila").add(1, "days").format("YYYY-MM-DD") ===
+      check_in_format;
+
+    if (tommorow_check_in) {
+      return moment.tz("Asia/Manila").endOf("day").format();
+    } else {
+      return moment.tz("Asia/Manila").add(1, "days").format();
+    }
+  };
+
   const newBookings = new Bookings({
     ...body,
     booking_reference,
+    expiration_date: createExpirationDate(),
     status: bookingStatus.PENDING,
     booking_type: bookingType.ONLINE,
     billing: {
@@ -88,8 +102,8 @@ router.post("/create_booking", async (req, res) => {
     },
     events: [createEvent(eventType.BOOKING_CREATED)],
     payment: [],
-    createdAt: moment.tz("Asia/Manila").format(),
-    updatedAt: moment.tz("Asia/Manila").format(),
+    createdAt: date_time_today.format(),
+    updatedAt: date_time_today.format(),
   });
 
   try {
