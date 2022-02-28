@@ -96,6 +96,10 @@ exports.billing = () => {
       type: Number,
       required: true,
     },
+    additional_total: {
+      type: Number,
+      required: true,
+    },
   });
 };
 

@@ -95,8 +95,6 @@ exports.updateConfirmed = ({ id, status, paymentAmount }) => {
         },
       });
 
-      sendEmail(result, { type: bookingStatus.CONFIRMED });
-
       resolve(result);
     } catch (error) {
       reject(error);
@@ -147,8 +145,6 @@ exports.updateCheckIn = ({ id, status, paymentAmount }) => {
           }),
         },
       });
-
-      sendEmail(result, { type: bookingStatus.CONFIRMED });
 
       resolve(result);
     } catch (error) {

@@ -99,6 +99,7 @@ router.post("/create_booking", async (req, res) => {
     billing: {
       sub_total: createNewBilling(),
       total_amount: body.totalAmount,
+      additional_total: 0,
     },
     events: [createEvent(eventType.BOOKING_CREATED)],
     payment: [],
@@ -175,7 +176,14 @@ router.post("/add_amenity", async (req, res) => {
   const { id, rate, name } = JSON.parse(amenity_id);
 
   try {
+    const booking = await Bookings.findById(bookingId);
+    const newAdditional = rate * qty + booking.billing.additional_total;
+    const newTotalAmount = booking.billing.total_amount + newAdditional;
     const result = await Bookings.findByIdAndUpdate(bookingId, {
+      $set: {
+        "billing.additional_total": parseFloat(newAdditional),
+        "billing.total_amount": parseFloat(newTotalAmount),
+      },
       $push: {
         additionals: {
           amenity_id: id,

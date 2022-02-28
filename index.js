@@ -12,6 +12,7 @@ const user = require("./routes/users");
 const email = require("./routes/emailTest");
 const reports = require("./routes/reports");
 const amenities = require("./routes/amenities");
+const discounts = require("./routes/discount");
 
 const { expiredBooking } = require("./startup/cronJobs");
 
@@ -45,6 +46,7 @@ app.use("/api/admin/user", user);
 app.use("/api/admin/email", email);
 app.use("/api/admin/reports", reports);
 app.use("/api/admin/amenity", amenities);
+app.use("/api/admin/discount", discounts);
 
 const port = process.env.PORT || 5000;
 app.listen(port, () => console.log(`Listening on port ${port}`));
