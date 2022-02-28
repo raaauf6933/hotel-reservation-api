@@ -66,7 +66,7 @@ router.post("/create_booking", async (req, res) => {
   const booking_reference = createBookingReference();
   let date_time_today = moment.tz("Asia/Manila");
   // Create Billing
-  console.log(date_time_today);
+
   const createNewBilling = () => {
     const { rooms } = body;
     let total_amount = 0;
@@ -102,6 +102,7 @@ router.post("/create_booking", async (req, res) => {
     },
     events: [createEvent(eventType.BOOKING_CREATED)],
     payment: [],
+    additionals: [],
     createdAt: date_time_today.format(),
     updatedAt: date_time_today.format(),
   });
@@ -167,5 +168,33 @@ router.post(
 
   uploadReceiptImage
 );
+
+router.post("/add_amenity", async (req, res) => {
+  const { id: bookingId, amenity_id, qty } = req.body;
+
+  const { id, rate, name } = JSON.parse(amenity_id);
+
+  try {
+    const result = await Bookings.findByIdAndUpdate(bookingId, {
+      $push: {
+        additionals: {
+          amenity_id: id,
+          name,
+          rate,
+          qty,
+          created: moment.tz("Asia/Manila").format(),
+        },
+        events: createEvent(eventType.ADD_AMENITY, {
+          qty,
+          type: name,
+        }),
+      },
+    });
+
+    res.status(200).send(result);
+  } catch (error) {
+    res.status(400).send({ status: "failed", message: error.message });
+  }
+});
 
 module.exports = router;

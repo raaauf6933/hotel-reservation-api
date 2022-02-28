@@ -75,17 +75,6 @@ exports.rooms = () => {
   };
 };
 
-exports.additionals = () => {
-  return new mongoose.Schema({
-    type: {
-      type: String,
-    },
-    amount: {
-      type: Number,
-    },
-  });
-};
-
 exports.billing = () => {
   return new mongoose.Schema({
     discount: {

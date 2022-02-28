@@ -5,6 +5,7 @@ const UPDATE_STATUS = "UPDATE_STATUS";
 const GUEST_IMAGE_UPLOAD = "GUEST_IMAGE_UPLOAD";
 const PAYMENT_CAPTURED = "PAYMENT_CAPTURED";
 const UPDATE_EXPIRED = "UPDATE_EXPIRED";
+const ADD_AMENITY = "ADD_AMENITY";
 
 exports.createEvent = (type, params) => {
   switch (type) {
@@ -63,6 +64,17 @@ exports.createEvent = (type, params) => {
         additional_type: "",
         created: moment.tz("Asia/Manila").format(),
       };
+    case ADD_AMENITY:
+      return {
+        type: "ADD_AMENITY",
+        message: "",
+        images: [],
+        user: "",
+        amount: 0,
+        quantity: params.qty,
+        additional_type: params.type,
+        created: moment.tz("Asia/Manila").format(),
+      };
     default:
       break;
   }
@@ -74,4 +86,5 @@ exports.eventType = {
   GUEST_IMAGE_UPLOAD,
   PAYMENT_CAPTURED,
   UPDATE_EXPIRED,
+  ADD_AMENITY,
 };

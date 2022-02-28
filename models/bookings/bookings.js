@@ -1,12 +1,5 @@
 const mongoose = require("mongoose");
-const {
-  guest,
-  events,
-  rooms,
-  billing,
-  additionals,
-  payment,
-} = require("./types");
+const { guest, events, rooms, billing } = require("./types");
 
 const BookingsSchema = new mongoose.Schema(
   {
@@ -40,7 +33,25 @@ const BookingsSchema = new mongoose.Schema(
       default: [events()],
     },
     rooms: rooms(),
-    additionals: additionals(),
+    additionals: [
+      new mongoose.Schema({
+        amenity_id: {
+          type: String,
+        },
+        name: {
+          type: String,
+        },
+        rate: {
+          type: Number,
+        },
+        qty: {
+          type: Number,
+        },
+        created: {
+          type: Date,
+        },
+      }),
+    ],
     billing: {
       type: billing(),
       required: true,
