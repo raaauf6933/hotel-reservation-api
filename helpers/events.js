@@ -6,6 +6,7 @@ const GUEST_IMAGE_UPLOAD = "GUEST_IMAGE_UPLOAD";
 const PAYMENT_CAPTURED = "PAYMENT_CAPTURED";
 const UPDATE_EXPIRED = "UPDATE_EXPIRED";
 const ADD_AMENITY = "ADD_AMENITY";
+const ADD_DISCOUNT = "ADD_DISCOUNT";
 
 exports.createEvent = (type, params) => {
   switch (type) {
@@ -17,6 +18,7 @@ exports.createEvent = (type, params) => {
         user: "",
         amount: 0,
         quantity: 0,
+        discount_type: "",
         additional_type: "",
         created: moment.tz("Asia/Manila").format(),
       };
@@ -28,6 +30,7 @@ exports.createEvent = (type, params) => {
         user: "",
         amount: 0,
         quantity: 0,
+        discount_type: "",
         additional_type: "",
         created: moment.tz("Asia/Manila").format(),
       };
@@ -39,6 +42,7 @@ exports.createEvent = (type, params) => {
         user: "",
         amount: 0,
         quantity: 0,
+        discount_type: "",
         additional_type: "",
         created: moment.tz("Asia/Manila").format(),
       };
@@ -50,6 +54,7 @@ exports.createEvent = (type, params) => {
         user: "",
         amount: params.amount,
         quantity: 0,
+        discount_type: "",
         additional_type: "",
         created: moment.tz("Asia/Manila").format(),
       };
@@ -61,6 +66,7 @@ exports.createEvent = (type, params) => {
         user: "",
         amount: 0,
         quantity: 0,
+        discount_type: "",
         additional_type: "",
         created: moment.tz("Asia/Manila").format(),
       };
@@ -72,7 +78,20 @@ exports.createEvent = (type, params) => {
         user: "",
         amount: 0,
         quantity: params.qty,
+        discount_type: "",
         additional_type: params.type,
+        created: moment.tz("Asia/Manila").format(),
+      };
+    case ADD_DISCOUNT:
+      return {
+        type: "ADD_DISCOUNT",
+        message: "",
+        images: [],
+        user: "",
+        amount: 0,
+        quantity: 0,
+        discount_type: params.type,
+        additional_type: "",
         created: moment.tz("Asia/Manila").format(),
       };
     default:
@@ -87,4 +106,5 @@ exports.eventType = {
   PAYMENT_CAPTURED,
   UPDATE_EXPIRED,
   ADD_AMENITY,
+  ADD_DISCOUNT,
 };

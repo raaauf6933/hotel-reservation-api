@@ -19,7 +19,8 @@ const {
   updateCheckIn,
 } = require("./../controller/bookings/updateBookingStatus");
 const moment = require("moment-timezone");
-
+const addDiscount = require("./../controller/bookings/addDiscount");
+const addAmenity = require("./../controller/bookings/addAmenity");
 // Get Bookings
 router.get("/", async (req, res) => {
   try {
@@ -97,6 +98,10 @@ router.post("/create_booking", async (req, res) => {
     status: bookingStatus.PENDING,
     booking_type: bookingType.ONLINE,
     billing: {
+      discount: {
+        type: "",
+        amount: 0,
+      },
       sub_total: createNewBilling(),
       total_amount: body.totalAmount,
       additional_total: 0,
@@ -137,7 +142,6 @@ router.post("/update_booking_status", async (req, res) => {
       default:
         break;
     }
-
     res.status(200).send(result);
   } catch (error) {
     if (IsJsonString(error.message)) {
@@ -166,43 +170,11 @@ router.post(
       next();
     });
   },
-
   uploadReceiptImage
 );
 
-router.post("/add_amenity", async (req, res) => {
-  const { id: bookingId, amenity_id, qty } = req.body;
+router.post("/add_amenity", addAmenity);
 
-  const { id, rate, name } = JSON.parse(amenity_id);
-
-  try {
-    const booking = await Bookings.findById(bookingId);
-    const newAdditional = rate * qty + booking.billing.additional_total;
-    const newTotalAmount = booking.billing.total_amount + newAdditional;
-    const result = await Bookings.findByIdAndUpdate(bookingId, {
-      $set: {
-        "billing.additional_total": parseFloat(newAdditional),
-        "billing.total_amount": parseFloat(newTotalAmount),
-      },
-      $push: {
-        additionals: {
-          amenity_id: id,
-          name,
-          rate,
-          qty,
-          created: moment.tz("Asia/Manila").format(),
-        },
-        events: createEvent(eventType.ADD_AMENITY, {
-          qty,
-          type: name,
-        }),
-      },
-    });
-
-    res.status(200).send(result);
-  } catch (error) {
-    res.status(400).send({ status: "failed", message: error.message });
-  }
-});
+router.post("/add_discount", addDiscount);
 
 module.exports = router;

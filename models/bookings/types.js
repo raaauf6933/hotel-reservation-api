@@ -50,6 +50,9 @@ exports.events = () => {
     quantity: {
       type: Number,
     },
+    discount_type: {
+      type: String,
+    },
     additional_type: {
       type: String,
     },
@@ -77,17 +80,16 @@ exports.rooms = () => {
 
 exports.billing = () => {
   return new mongoose.Schema({
-    discount: {
-      type: new mongoose.Schema({
-        type: {
-          type: String,
-        },
-        amount: {
-          type: Number,
-        },
-      }),
-      default: null,
-    },
+    discount: new mongoose.Schema({
+      type: {
+        type: String,
+        default: "",
+      },
+      amount: {
+        type: Number,
+        default: 0,
+      },
+    }),
     total_amount: {
       type: Number,
       required: true,

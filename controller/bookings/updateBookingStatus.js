@@ -43,7 +43,7 @@ exports.updatePending = ({ id, status, paymentAmount }) => {
         },
       });
 
-      sendEmail(result, { type: bookingStatus.PENDING });
+      sendEmail(result, { type: bookingStatus.CONFIRMED });
       resolve(result);
     } catch (error) {
       reject(error);
@@ -56,14 +56,17 @@ exports.updateConfirmed = ({ id, status, paymentAmount }) => {
     try {
       // validate payment amount
       const total_balance = await getTotalbalance(id);
-      if (parseFloat(paymentAmount) > parseFloat(total_balance)) {
+      const format_total_payment = parseFloat(paymentAmount.toFixed(2));
+      const format_total_balace = parseFloat(total_balance.toFixed(2));
+
+      if (format_total_payment > format_total_balace) {
         throw Error(
           JSON.stringify({
             code: "PAYMENT_EXCEED",
             message: "Payment Amount Should be less than Outstanding Balance",
           })
         );
-      } else if (parseFloat(paymentAmount) < parseFloat(total_balance)) {
+      } else if (format_total_payment < format_total_balace) {
         throw Error(
           JSON.stringify({
             code: "PAYMENT_INSUFFICIENT",
@@ -107,14 +110,17 @@ exports.updateCheckIn = ({ id, status, paymentAmount }) => {
     try {
       // validate payment amount
       const total_balance = await getTotalbalance(id);
-      if (parseFloat(paymentAmount) > parseFloat(total_balance)) {
+
+      const format_total_payment = parseFloat(paymentAmount.toFixed(2));
+      const format_total_balace = parseFloat(total_balance.toFixed(2));
+      if (format_total_payment > format_total_balace) {
         throw Error(
           JSON.stringify({
             code: "PAYMENT_EXCEED",
             message: "Payment Amount Should be less than Outstanding Balance",
           })
         );
-      } else if (parseFloat(paymentAmount) < parseFloat(total_balance)) {
+      } else if (format_total_payment < format_total_balace) {
         throw Error(
           JSON.stringify({
             code: "PAYMENT_INSUFFICIENT",
