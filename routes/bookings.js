@@ -21,10 +21,17 @@ const {
 const moment = require("moment-timezone");
 const addDiscount = require("./../controller/bookings/addDiscount");
 const addAmenity = require("./../controller/bookings/addAmenity");
+
 // Get Bookings
-router.get("/", async (req, res) => {
+router.post("/bookings", async (req, res) => {
+  const { status } = req.body;
+
+  const booking_status = status === "ALL" ? {} : { status };
+
   try {
-    const booking_results = await Bookings.find();
+    const booking_results = await Bookings.find(booking_status).sort({
+      createdAt: -1,
+    });
     res.status(200).send(booking_results);
   } catch (error) {
     res.status(400).send(error.message);
@@ -32,7 +39,7 @@ router.get("/", async (req, res) => {
 });
 
 // Get Booking
-router.post("/", async (req, res) => {
+router.post("/booking", async (req, res) => {
   const { body } = req;
   try {
     const booking = await Bookings.findById(body.id);
