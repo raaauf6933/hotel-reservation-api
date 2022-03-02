@@ -20,7 +20,7 @@ const oAuth2Client = new google.auth.OAuth2(
 oAuth2Client.setCredentials({ refresh_token: process.env.REFRESH_TOKEN });
 
 const sendEmail = async (booking, { type }) => {
-  const { guest } = booking;
+  const { guest, booking_reference } = booking;
   const { email } = guest;
 
   const accessToken = await oAuth2Client.getAccessToken();
@@ -56,8 +56,8 @@ const sendEmail = async (booking, { type }) => {
       case "PENDING":
         return {
           from: "VILLA GREGORIA RESORT <villagregoriaresort@gmail.com>",
-          to: email,
-          subject: "Sending Email using Node.js",
+          to: "villagregoriaresortph@gmail.com, " + email,
+          subject: `BOOKING PENDING | ${booking_reference}`,
           html: createBookingEmail(booking),
           attachments: [
             {
@@ -70,9 +70,9 @@ const sendEmail = async (booking, { type }) => {
         break;
       case "CONFIRMED":
         return {
-          from: "VILLA GREGORIA RESORT | BOOKING CONFIRMATION <villagregoriaresort@gmail.com>",
-          to: email,
-          subject: "Sending Email using Node.js",
+          from: "VILLA GREGORIA RESORT",
+          to: "villagregoriaresortph@gmail.com, " + email,
+          subject: `BOOKING CONFIRMED | ${booking_reference}`,
           html: confirmedBooking(booking),
           attachments: [
             {
