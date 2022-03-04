@@ -1,6 +1,6 @@
 const cloudinary = require("cloudinary");
 const RoomTypes = require("../../models/rooms");
-const fs = require("fs");
+const validateRoomType = require("./validateRoomType");
 
 module.exports = async (req, res) => {
   // const room_details = JSON.parse(req.body.data);
@@ -35,6 +35,8 @@ module.exports = async (req, res) => {
 
     // await uploadImagePromise();
 
+    await validateRoomType(data.name);
+
     const room_types = new RoomTypes({
       name: data.name,
       details: {
@@ -55,6 +57,6 @@ module.exports = async (req, res) => {
 
     res.status(200).send(create_result);
   } catch (error) {
-    res.status(400).send(error.message);
+    res.status(400).send({ status: "failed", message: error.message });
   }
 };

@@ -9,10 +9,13 @@ const { statuses } = require("./../utils/enums");
 const moment = require("moment-timezone");
 const Booking = require("./../models/bookings/bookings");
 const _ = require("lodash");
+// const cloudinary = require("cloudinary");
 
 router.get("/", async (req, res) => {
   try {
-    const room_types_result = await RoomTypes.find();
+    const room_types_result = await RoomTypes.find({
+      status: { $in: ["ACT", "DEACT"] },
+    });
     res.status(200).send(room_types_result);
   } catch (error) {
     res.status(400).send(error.message);
@@ -66,7 +69,9 @@ router.post("/available_rooms", async (req, res) => {
 
     let room_booking_holder = [];
 
-    const room_types_result = await RoomTypes.find();
+    const room_types_result = await RoomTypes.find({
+      status: { $in: ["ACT", "DEACT"] },
+    });
 
     extracted_booking_fields.forEach((e) => {
       e.rooms.forEach((booking_room) => {
@@ -205,5 +210,58 @@ router.post(
   },
   uploadRoomImage
 );
+
+router.post("/delete_roomtype", async (req, res) => {
+  const { id } = req.body;
+
+  try {
+    const result = await RoomTypes.findByIdAndUpdate(id, {
+      status: "DEL",
+    });
+
+    res.status(200).send(result);
+  } catch (error) {
+    res.status(400).send({ status: "failed", message: error.message });
+  }
+});
+
+router.post("/delete_room_image", async (req, res) => {
+  const { id, image_id } = req.body;
+
+  try {
+    const result = await RoomTypes.findByIdAndUpdate(id, {
+      $pull: {
+        images: {
+          _id: image_id,
+        },
+      },
+    });
+
+    // delete image in cloud
+    // cloudinary.v2.uploader.destroy(public_id);
+
+    res.status(200).send(result);
+  } catch (error) {
+    res.status(400).send({ status: "failed", message: error.message });
+  }
+});
+
+router.post("/delete_room", async (req, res) => {
+  const { id, room_id } = req.body;
+
+  try {
+    const result = await RoomTypes.findByIdAndUpdate(id, {
+      $pull: {
+        rooms: {
+          _id: room_id,
+        },
+      },
+    });
+
+    res.status(200).send(result);
+  } catch (error) {
+    res.status(400).send({ status: "failed", message: error.message });
+  }
+});
 
 module.exports = router;

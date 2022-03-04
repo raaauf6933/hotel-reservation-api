@@ -37,18 +37,15 @@ const roomTypesSchema = new mongoose.Schema(
         required: true,
       },
     }),
-    images: {
-      type: Array,
-      default: [
-        new mongoose.Schema({
-          src: {
-            type: String,
-            required: true,
-            trim: true,
-          },
-        }),
-      ],
-    },
+    images: [
+      new mongoose.Schema({
+        src: {
+          type: String,
+          required: true,
+          trim: true,
+        },
+      }),
+    ],
     room_rate: {
       type: Number,
       required: true,
