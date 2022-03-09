@@ -1,10 +1,9 @@
-const { find } = require("lodash");
-const Amenities = require("./../../models/amenities");
+const Discounts = require("./../../models/discounts");
 
 module.exports = async (name) => {
   return new Promise(async (resolve, reject) => {
     try {
-      const result = await Amenities.findOne({
+      const result = await Discounts.findOne({
         name: new RegExp(`^${name}$`, "i"),
         status: { $in: ["ACT", "DEACT"] },
       });

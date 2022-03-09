@@ -6,7 +6,7 @@ const { bookingStatus, bookingType } = require("../../utils/enums");
 const getTotalbalance = require("./getTotalbalance");
 const moment = require("moment-timezone");
 
-exports.updatePending = ({ id, status, paymentAmount }) => {
+exports.updatePending = ({ id, status, paymentAmount, user_name }) => {
   return new Promise(async (resolve, reject) => {
     try {
       // validate payment amount
@@ -25,7 +25,7 @@ exports.updatePending = ({ id, status, paymentAmount }) => {
         $push: {
           events: createEvent(eventType.UPDATE_STATUS, {
             status: getNewStatus(status),
-            user: "",
+            user: user_name,
           }),
           payment: {
             payment_amount: paymentAmount,
@@ -37,7 +37,7 @@ exports.updatePending = ({ id, status, paymentAmount }) => {
       await Bookings.findByIdAndUpdate(id, {
         $push: {
           events: createEvent(eventType.PAYMENT_CAPTURED, {
-            user: "",
+            user: user_name,
             amount: paymentAmount,
           }),
         },
@@ -51,7 +51,7 @@ exports.updatePending = ({ id, status, paymentAmount }) => {
   });
 };
 
-exports.updateConfirmed = ({ id, status, paymentAmount }) => {
+exports.updateConfirmed = ({ id, status, paymentAmount, user_name }) => {
   return new Promise(async (resolve, reject) => {
     try {
       // validate payment amount
@@ -80,7 +80,7 @@ exports.updateConfirmed = ({ id, status, paymentAmount }) => {
         $push: {
           events: createEvent(eventType.UPDATE_STATUS, {
             status: getNewStatus(status),
-            user: "",
+            user: user_name,
           }),
           payment: {
             payment_amount: paymentAmount,
@@ -92,7 +92,7 @@ exports.updateConfirmed = ({ id, status, paymentAmount }) => {
       await Bookings.findByIdAndUpdate(id, {
         $push: {
           events: createEvent(eventType.PAYMENT_CAPTURED, {
-            user: "",
+            user: user_name,
             amount: paymentAmount,
           }),
         },
@@ -105,7 +105,7 @@ exports.updateConfirmed = ({ id, status, paymentAmount }) => {
   });
 };
 
-exports.updateCheckIn = ({ id, status, paymentAmount }) => {
+exports.updateCheckIn = ({ id, status, paymentAmount, user_name }) => {
   return new Promise(async (resolve, reject) => {
     try {
       // validate payment amount
@@ -134,7 +134,7 @@ exports.updateCheckIn = ({ id, status, paymentAmount }) => {
         $push: {
           events: createEvent(eventType.UPDATE_STATUS, {
             status: getNewStatus(status),
-            user: "",
+            user: user_name,
           }),
           payment: {
             payment_amount: paymentAmount,
@@ -146,13 +146,41 @@ exports.updateCheckIn = ({ id, status, paymentAmount }) => {
       await Bookings.findByIdAndUpdate(id, {
         $push: {
           events: createEvent(eventType.PAYMENT_CAPTURED, {
-            user: "",
+            user: user_name,
             amount: paymentAmount,
           }),
         },
       });
 
       resolve(result);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
+exports.cancelBooking = ({ id, status, user_name }) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      // if (status !== "PENDING") {
+      //   throw Error(
+      //     JSON.stringify({
+      //       code: "CANCEL_NOT_PENDING",
+      //       message: "Unable to Cancel. Booking must be in Pending Status",
+      //     })
+      //   );
+      // } else {
+      const result = await Bookings.findByIdAndUpdate(id, {
+        status: "CANCELLED",
+        $push: {
+          events: createEvent(eventType.CANCELLED, {
+            user: user_name,
+          }),
+        },
+      });
+
+      resolve(result);
+      // }
     } catch (error) {
       reject(error);
     }

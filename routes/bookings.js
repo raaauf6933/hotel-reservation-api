@@ -17,13 +17,15 @@ const {
   updatePending,
   updateConfirmed,
   updateCheckIn,
+  cancelBooking,
 } = require("./../controller/bookings/updateBookingStatus");
 const moment = require("moment-timezone");
 const addDiscount = require("./../controller/bookings/addDiscount");
 const addAmenity = require("./../controller/bookings/addAmenity");
+const auth = require("./../middleware/auth");
 
 // Get Bookings
-router.post("/bookings", async (req, res) => {
+router.post("/bookings", auth, async (req, res) => {
   const { status } = req.body;
 
   const booking_status = status === "ALL" ? {} : { status };
@@ -39,7 +41,7 @@ router.post("/bookings", async (req, res) => {
 });
 
 // Get Booking
-router.post("/booking", async (req, res) => {
+router.post("/booking", auth, async (req, res) => {
   const { body } = req;
   try {
     const booking = await Bookings.findById(body.id);
@@ -130,21 +132,31 @@ router.post("/create_booking", async (req, res) => {
   }
 });
 
-router.post("/update_booking_status", async (req, res) => {
-  const { body } = req;
+router.post("/update_booking_status", auth, async (req, res) => {
+  const { body, user } = req;
   const { id, status, paymentAmount } = body;
+
+  const user_name = `${user.first_name} ${user.last_name}`;
 
   try {
     let result;
     switch (status) {
       case bookingStatus.PENDING:
-        result = await updatePending({ id, status, paymentAmount });
+        result = await updatePending({ id, status, paymentAmount, user_name });
         break;
       case bookingStatus.CONFIRMED:
-        result = await updateConfirmed({ id, status, paymentAmount });
+        result = await updateConfirmed({
+          id,
+          status,
+          paymentAmount,
+          user_name,
+        });
         break;
       case bookingStatus.CHECK_IN:
-        result = await updateCheckIn({ id, status, paymentAmount });
+        result = await updateCheckIn({ id, status, paymentAmount, user_name });
+        break;
+      case bookingStatus.CANCELLED:
+        result = await cancelBooking({ id, status, user_name });
         break;
       default:
         break;
@@ -180,8 +192,8 @@ router.post(
   uploadReceiptImage
 );
 
-router.post("/add_amenity", addAmenity);
+router.post("/add_amenity", auth, addAmenity);
 
-router.post("/add_discount", addDiscount);
+router.post("/add_discount", auth, addDiscount);
 
 module.exports = router;

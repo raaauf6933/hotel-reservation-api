@@ -7,6 +7,7 @@ const PAYMENT_CAPTURED = "PAYMENT_CAPTURED";
 const UPDATE_EXPIRED = "UPDATE_EXPIRED";
 const ADD_AMENITY = "ADD_AMENITY";
 const ADD_DISCOUNT = "ADD_DISCOUNT";
+const CANCELLED = "CANCELLED";
 
 exports.createEvent = (type, params) => {
   switch (type) {
@@ -39,7 +40,7 @@ exports.createEvent = (type, params) => {
         type: "UPDATE_STATUS",
         message: `Booking Status Updated to ${params.status}`,
         images: [],
-        user: "",
+        user: params.user,
         amount: 0,
         quantity: 0,
         discount_type: "",
@@ -51,7 +52,7 @@ exports.createEvent = (type, params) => {
         type: "PAYMENT_CAPTURED",
         message: `Guest Paid`,
         images: [],
-        user: "",
+        user: params.user,
         amount: params.amount,
         quantity: 0,
         discount_type: "",
@@ -75,7 +76,7 @@ exports.createEvent = (type, params) => {
         type: "ADD_AMENITY",
         message: "",
         images: [],
-        user: "",
+        user: params.user,
         amount: 0,
         quantity: params.qty,
         discount_type: "",
@@ -87,10 +88,22 @@ exports.createEvent = (type, params) => {
         type: "ADD_DISCOUNT",
         message: "",
         images: [],
-        user: "",
+        user: params.user,
         amount: 0,
         quantity: 0,
         discount_type: params.type,
+        additional_type: "",
+        created: moment.tz("Asia/Manila").format(),
+      };
+    case CANCELLED:
+      return {
+        type: "CANCELLED",
+        message: "Booking has been Cancelled",
+        images: [],
+        user: params.user,
+        amount: 0,
+        quantity: 0,
+        discount_type: "",
         additional_type: "",
         created: moment.tz("Asia/Manila").format(),
       };
@@ -107,4 +120,5 @@ exports.eventType = {
   UPDATE_EXPIRED,
   ADD_AMENITY,
   ADD_DISCOUNT,
+  CANCELLED,
 };

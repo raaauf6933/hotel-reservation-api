@@ -7,6 +7,8 @@ module.exports = async (req, res) => {
 
   const { id, rate, name } = JSON.parse(amenity_id);
 
+  const user_name = `${req.user.first_name} ${req.user.last_name}`;
+
   try {
     const booking = await Bookings.findById(bookingId);
 
@@ -31,6 +33,7 @@ module.exports = async (req, res) => {
         events: createEvent(eventType.ADD_AMENITY, {
           qty,
           type: name,
+          user: user_name,
         }),
       },
     });

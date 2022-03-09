@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Discounts = require("./../models/discounts");
+const validateDiscount = require("./../controller/discount/validateDiscount");
 
 router.get("/", async (req, res) => {
   try {
@@ -15,6 +16,8 @@ router.post("/create_discount", async (req, res) => {
   const { name, type, discount_rate } = req.body;
 
   try {
+    await validateDiscount(name);
+
     let discount = new Discounts({
       name,
       type,
@@ -25,7 +28,21 @@ router.post("/create_discount", async (req, res) => {
     const result = await discount.save();
     res.status(200).send(result);
   } catch (error) {
-    res.status(400).send(error.message);
+    res.status(400).send({ status: "failed", message: error.message });
+  }
+});
+
+router.post("/update_status", async (req, res) => {
+  const { id, status } = req.body;
+
+  try {
+    const result = await Discounts.findByIdAndUpdate(id, {
+      status,
+    });
+
+    res.status(200).send(result);
+  } catch (error) {
+    res.status(400).send({ status: "failed", message: error.message });
   }
 });
 

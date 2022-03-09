@@ -5,6 +5,7 @@ const getPaymentAmount = require("./getPaymentAmount");
 module.exports = async (req, res) => {
   const { id: bookingId, discount_type } = req.body;
   const { discount_rate, name, type } = JSON.parse(discount_type);
+  const user_name = `${req.user.first_name} ${req.user.last_name}`;
 
   try {
     const booking = await Bookings.findById(bookingId);
@@ -43,6 +44,7 @@ module.exports = async (req, res) => {
               $push: {
                 events: createEvent(eventType.ADD_DISCOUNT, {
                   type: name,
+                  user: user_name,
                 }),
               },
             }
@@ -70,6 +72,7 @@ module.exports = async (req, res) => {
             $push: {
               events: createEvent(eventType.ADD_DISCOUNT, {
                 type: name,
+                user: user_name,
               }),
             },
           });
