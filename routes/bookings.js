@@ -25,7 +25,7 @@ const addAmenity = require("./../controller/bookings/addAmenity");
 const auth = require("./../middleware/auth");
 
 // Get Bookings
-router.post("/bookings", auth, async (req, res) => {
+router.post("/bookings", async (req, res) => {
   const { status } = req.body;
 
   const booking_status = status === "ALL" ? {} : { status };
@@ -41,7 +41,7 @@ router.post("/bookings", auth, async (req, res) => {
 });
 
 // Get Booking
-router.post("/booking", auth, async (req, res) => {
+router.post("/booking", async (req, res) => {
   const { body } = req;
   try {
     const booking = await Bookings.findById(body.id);
