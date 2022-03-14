@@ -21,7 +21,7 @@ exports.generateAuthToken = (data) => {
 exports.currencyFormat = (number) => {
   const formatter = new Intl.NumberFormat("en-PH", {
     currency: "PHP",
-    currencyDisplay: "code",
+    currencyDisplay: "symbol",
     minimumFractionDigits: 2,
     style: "currency",
   });

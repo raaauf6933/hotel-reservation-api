@@ -1,8 +1,87 @@
 const moment = require("moment");
+const { currencyFormat } = require("./../../utils/misc");
+const getPaymentAmount = require("./../../controller/bookings/getPaymentAmount");
 
 module.exports = (body) => {
-  const { booking_reference, check_in, check_out, guest, createdAt } = body;
+  const {
+    booking_reference,
+    check_in,
+    check_out,
+    guest,
+    createdAt,
+    rooms,
+    payment,
+    billing,
+  } = body;
   const { first_name, last_name, no_guest } = guest;
+
+  const getNoQuantity = (roomtype_id) => {
+    return rooms.filter((obj) => obj.roomtype_id === roomtype_id).length;
+  };
+
+  const getRoomAmount = (roomtype_id, rate) => {
+    const roomTotalAmount = parseInt(getNoQuantity(roomtype_id)) * rate;
+    return roomTotalAmount;
+  };
+
+  const removeDuplicates = rooms.filter(
+    (v, i, a) => a.findIndex((t) => t.roomtype_id === v.roomtype_id) === i
+  );
+
+  const itemBody = removeDuplicates.map((e) => {
+    return {
+      room_name: e.roomtype_name,
+      rate: e.room_amount,
+      qty: getNoQuantity(e.roomtype_id),
+      amount: getRoomAmount(e.roomtype_id, e.room_amount),
+    };
+  });
+
+  const handleGetNoNights = () => {
+    const start = moment(check_in, "YYYY-MM-DD");
+    const end = moment(check_out, "YYYY-MM-DD");
+    const nights = Math.abs(moment.duration(start.diff(end)).asDays());
+    return nights;
+  };
+
+  const getSubTotal = () => {
+    let total = 0;
+    itemBody.map((e) => (total += e.amount));
+    return total;
+  };
+
+  const getTotalAmount = () => {
+    return getSubTotal() * handleGetNoNights();
+  };
+
+  const handleVat = () => {
+    const vatable_sales = getTotalAmount() / 1.12;
+    const vat = getTotalAmount() - vatable_sales;
+
+    return {
+      vatable_sales,
+      vat,
+    };
+  };
+
+  const amount_paid = () => {
+    let payment_amount = 0;
+
+    if (payment.length !== 0) {
+      payment?.map((e) => (payment_amount += e.payment_amount));
+    }
+    return payment_amount;
+  };
+
+  const total_balance = () => {
+    let total_balance = 0;
+
+    total_balance =
+      parseFloat(billing.total_amount) - parseFloat(amount_paid());
+
+    return total_balance;
+  };
+
   return `
   <!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
@@ -629,7 +708,7 @@ a[x-apple-data-detectors='true'] {
       <td style="overflow-wrap:break-word;word-break:break-word;padding:0px 10px 10px;font-family:'Open Sans',sans-serif;" align="left">
         
   <div class="v-text-align v-line-height" style="color: #615e5e; line-height: 140%; text-align: left; word-wrap: break-word;">
-    <p style="font-size: 14px; line-height: 140%;"><span style="font-size: 12px; line-height: 16.8px;">- Extra guest is PHP500.00/pax, min of 1 pax per room. (To be added upon check-in</span></p>
+    <p style="font-size: 14px; line-height: 140%;"><span style="font-size: 12px; line-height: 16.8px;">- Extra guest is PHP500.00/pax, min of 1 pax per room. (To be added upon check-in)</span></p>
   </div>
 
       </td>
@@ -1029,8 +1108,11 @@ a[x-apple-data-detectors='true'] {
 </div>
 
 
+<!-- Row Start Here -->
 
-<div class="u-row-container" style="padding: 0px;background-color: transparent">
+${itemBody
+  .map(({ room_name, rate, qty, amount }) => {
+    return ` <div class="u-row-container" style="padding: 0px;background-color: transparent">
   <div class="u-row" style="Margin: 0 auto;min-width: 320px;max-width: 600px;overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: #ffffff;">
     <div style="border-collapse: collapse;display: table;width: 100%;background-color: transparent;">
       <!--[if (mso)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding: 0px;background-color: transparent;" align="center"><table cellpadding="0" cellspacing="0" border="0" style="width:600px;"><tr style="background-color: #ffffff;"><![endif]-->
@@ -1046,7 +1128,7 @@ a[x-apple-data-detectors='true'] {
       <td style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:'Open Sans',sans-serif;" align="left">
         
   <div class="v-text-align v-line-height" style="color: #615e5e; line-height: 140%; text-align: left; word-wrap: break-word;">
-    <p style="font-size: 14px; line-height: 140%; text-align: center;"><em><span style="font-size: 14px; line-height: 19.6px;">Room Variant 3 (with Double Deck)</span></em></p>
+    <p style="font-size: 14px; line-height: 140%; text-align: center;"><em><span style="font-size: 14px; line-height: 19.6px;">${room_name}</span></em></p>
   </div>
 
       </td>
@@ -1069,7 +1151,9 @@ a[x-apple-data-detectors='true'] {
       <td style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:'Open Sans',sans-serif;" align="left">
         
   <div class="v-text-align v-line-height" style="color: #615e5e; line-height: 140%; text-align: right; word-wrap: break-word;">
-    <p style="font-size: 14px; line-height: 140%; text-align: center;"><span style="font-size: 14px; line-height: 19.6px;">$200</span></p>
+    <p style="font-size: 14px; line-height: 140%; text-align: center;"><span style="font-size: 14px; line-height: 19.6px; white-space: nowrap;">${currencyFormat(
+      rate
+    )}</span></p>
   </div>
 
       </td>
@@ -1092,7 +1176,7 @@ a[x-apple-data-detectors='true'] {
       <td style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:'Open Sans',sans-serif;" align="left">
         
   <div class="v-text-align v-line-height" style="color: #615e5e; line-height: 140%; text-align: right; word-wrap: break-word;">
-    <p style="font-size: 14px; line-height: 140%; text-align: center;"><span style="font-size: 14px; line-height: 19.6px;">3</span></p>
+    <p style="font-size: 14px; line-height: 140%; text-align: center;"><span style="font-size: 14px; line-height: 19.6px;">${qty}</span></p>
   </div>
 
       </td>
@@ -1115,7 +1199,9 @@ a[x-apple-data-detectors='true'] {
       <td style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:'Open Sans',sans-serif;" align="left">
         
   <div class="v-text-align v-line-height" style="color: #615e5e; line-height: 140%; text-align: right; word-wrap: break-word;">
-    <p style="font-size: 14px; line-height: 140%; text-align: center;"><span style="font-size: 14px; line-height: 19.6px;">$200</span></p>
+    <p style="font-size: 14px; line-height: 140%; text-align: center;"><span style="font-size: 14px; line-height: 19.6px;">${currencyFormat(
+      amount
+    )}</span></p>
   </div>
 
       </td>
@@ -1130,9 +1216,11 @@ a[x-apple-data-detectors='true'] {
       <!--[if (mso)|(IE)]></tr></table></td></tr></table><![endif]-->
     </div>
   </div>
-</div>
+</div>`;
+  })
+  .join("")}
 
-
+<!-- Row End Here -->
 
 <div class="u-row-container" style="padding: 0px;background-color: transparent">
   <div class="u-row" style="Margin: 0 auto;min-width: 320px;max-width: 600px;overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: #ffffff;">
@@ -1214,7 +1302,9 @@ a[x-apple-data-detectors='true'] {
       <td style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:'Open Sans',sans-serif;" align="left">
         
   <div class="v-text-align v-line-height" style="color: #615e5e; line-height: 140%; text-align: right; word-wrap: break-word;">
-    <p style="font-size: 14px; line-height: 140%;"><strong><span style="font-size: 14px; line-height: 19.6px;">1,000.00 PHP</span></strong></p>
+    <p style="font-size: 14px; line-height: 140%;"><strong><span style="font-size: 14px; line-height: 19.6px;">${currencyFormat(
+      getSubTotal()
+    )} X ${handleGetNoNights()} (Night(s))</span></strong></p>
   </div>
 
       </td>
@@ -1272,7 +1362,9 @@ a[x-apple-data-detectors='true'] {
       <td style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:'Open Sans',sans-serif;" align="left">
         
   <div class="v-text-align v-line-height" style="color: #615e5e; line-height: 140%; text-align: right; word-wrap: break-word;">
-    <p style="font-size: 14px; line-height: 140%;"><strong>1,000.00 PHP</strong></p>
+    <p style="font-size: 14px; line-height: 140%;"><strong>${currencyFormat(
+      handleVat().vatable_sales
+    )}</strong></p>
   </div>
 
       </td>
@@ -1330,7 +1422,9 @@ a[x-apple-data-detectors='true'] {
       <td style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:'Open Sans',sans-serif;" align="left">
         
   <div class="v-text-align v-line-height" style="color: #615e5e; line-height: 140%; text-align: right; word-wrap: break-word;">
-    <p style="font-size: 14px; line-height: 140%;"><strong><span style="font-size: 14px; line-height: 19.6px;">1,000.00 PHP</span></strong></p>
+    <p style="font-size: 14px; line-height: 140%;"><strong><span style="font-size: 14px; line-height: 19.6px;">${currencyFormat(
+      handleVat().vat
+    )}</span></strong></p>
   </div>
 
       </td>
@@ -1388,7 +1482,9 @@ a[x-apple-data-detectors='true'] {
       <td style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:'Open Sans',sans-serif;" align="left">
         
   <div class="v-text-align v-line-height" style="color: #615e5e; line-height: 140%; text-align: right; word-wrap: break-word;">
-    <p style="font-size: 14px; line-height: 140%;"><strong>1,000.00 PHP</strong></p>
+    <p style="font-size: 14px; line-height: 140%;"><strong>${currencyFormat(
+      getTotalAmount()
+    )}</strong></p>
   </div>
 
       </td>
@@ -1522,7 +1618,9 @@ a[x-apple-data-detectors='true'] {
       <td style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:'Open Sans',sans-serif;" align="left">
         
   <div class="v-text-align v-line-height" style="color: #5c5757; line-height: 140%; text-align: left; word-wrap: break-word;">
-    <p style="font-size: 14px; line-height: 140%; text-align: right;"><span style="font-size: 18px; line-height: 25.2px;"><strong>PHP 4,000.00</strong></span></p>
+    <p style="font-size: 14px; line-height: 140%; text-align: right;"><span style="font-size: 18px; line-height: 25.2px;"><strong>${currencyFormat(
+      amount_paid()
+    )}</strong></span></p>
   </div>
 
       </td>
@@ -1580,7 +1678,9 @@ a[x-apple-data-detectors='true'] {
       <td style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:'Open Sans',sans-serif;" align="left">
         
   <div class="v-text-align v-line-height" style="color: #5c5757; line-height: 140%; text-align: left; word-wrap: break-word;">
-    <p style="font-size: 14px; line-height: 140%; text-align: right;"><span style="font-size: 18px; line-height: 25.2px;"><strong>PHP 4,000.00</strong></span></p>
+    <p style="font-size: 14px; line-height: 140%; text-align: right;"><span style="font-size: 18px; line-height: 25.2px;"><strong>${currencyFormat(
+      total_balance()
+    )}</strong></span></p>
   </div>
 
       </td>

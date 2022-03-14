@@ -70,7 +70,7 @@ const sendEmail = async (booking, { type }) => {
         break;
       case "CONFIRMED":
         return {
-          from: "VILLA GREGORIA RESORT",
+          from: "VILLA GREGORIA RESORT <villagregoriaresort@gmail.com>",
           to: "villagregoriaresortph@gmail.com, " + email,
           subject: `BOOKING CONFIRMED | ${booking_reference}`,
           html: confirmedBooking(booking),

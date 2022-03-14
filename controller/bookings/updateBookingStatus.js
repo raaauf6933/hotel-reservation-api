@@ -20,19 +20,25 @@ exports.updatePending = ({ id, status, paymentAmount, user_name }) => {
         );
       }
 
-      const result = await Bookings.findByIdAndUpdate(id, {
-        status: getNewStatus(status),
-        $push: {
-          events: createEvent(eventType.UPDATE_STATUS, {
-            status: getNewStatus(status),
-            user: user_name,
-          }),
-          payment: {
-            payment_amount: paymentAmount,
-            created: moment.tz("Asia/Manila").format(),
+      const result = await Bookings.findByIdAndUpdate(
+        id,
+        {
+          status: getNewStatus(status),
+          $push: {
+            events: createEvent(eventType.UPDATE_STATUS, {
+              status: getNewStatus(status),
+              user: user_name,
+            }),
+            payment: {
+              payment_amount: paymentAmount,
+              created: moment.tz("Asia/Manila").format(),
+            },
           },
         },
-      });
+        {
+          new: true,
+        }
+      );
 
       await Bookings.findByIdAndUpdate(id, {
         $push: {

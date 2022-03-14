@@ -803,7 +803,7 @@ module.exports = (body) => {
         <td style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:'Open Sans',sans-serif;" align="left">
           
     <div class="v-text-align v-line-height" style="color: #615e5e; line-height: 140%; text-align: right; word-wrap: break-word;">
-      <p style="font-size: 14px; line-height: 140%; text-align: center;"><span style="font-size: 14px; line-height: 19.6px;">${currencyFormat(
+      <p style="font-size: 14px; line-height: 140%; text-align: center;"><span style="font-size: 14px; line-height: 19.6px; white-space: nowrap;">${currencyFormat(
         rate
       )}</span></p>
     </div>
@@ -957,7 +957,9 @@ module.exports = (body) => {
         <td style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:'Open Sans',sans-serif;" align="left">
           
     <div class="v-text-align v-line-height" style="color: #615e5e; line-height: 140%; text-align: right; word-wrap: break-word;">
-      <p style="font-size: 14px; line-height: 140%;"><strong><span style="font-size: 14px; line-height: 19.6px;">${getSubTotal()} X ${handleGetNoNights()} (Night(s))</span></strong></p>
+      <p style="font-size: 14px; line-height: 140%;"><strong><span style="font-size: 14px; line-height: 19.6px;">${currencyFormat(
+        getSubTotal()
+      )} X ${handleGetNoNights()} (Night(s))</span></strong></p>
     </div>
   
         </td>
