@@ -3,6 +3,7 @@ const router = express.Router();
 const Bookings = require("../models/bookings/bookings");
 const { bookingStatus } = require("./../utils/enums");
 const moment = require("moment-timezone");
+const getVatComputation = require("./../controller/getVatComputation");
 
 router.get("/dashboard", async (req, res) => {
   var today = new Date(moment.tz("Asia/Manila").format());
@@ -23,11 +24,25 @@ router.get("/dashboard", async (req, res) => {
       status: bookingStatus.CONFIRMED,
     });
 
+    const all_bookings = await Bookings.find();
+
+    let sales_today = 0;
+    all_bookings.forEach((e) => {
+      e.payment.forEach((payment) => {
+        if (
+          moment(payment?.created).tz("Asia/Manila").format("L") ===
+          moment.tz("Asia/Manila").format("L")
+        ) {
+          sales_today += payment?.payment_amount;
+        }
+      });
+    });
+
     res.status(200).send({
       new_booking: new_booking.length,
       pending_booking: pending_booking.length,
       confirmed_booking: confirmed_booking.length,
-      sales_today: 5600.53,
+      sales_today: sales_today,
     });
   } catch (error) {
     res.status(400).send(error);
@@ -128,7 +143,27 @@ router.post("/extract_report", async (req, res) => {
 
   try {
     const result = await Bookings.find(getStatus()).sort(getSort());
-    res.send(result);
+
+    let no_guest = 0;
+    let total_amount = 0;
+    let total_sales = 0;
+    result.forEach((e) => {
+      no_guest += e.guest.no_guest;
+      total_amount += e.billing.total_amount;
+      e.payment?.forEach((e) => (total_sales += e.payment_amount));
+    });
+
+    res.send({
+      bookings: result,
+      billing: {
+        no_bookings: result.length,
+        no_guest: no_guest,
+        vatable: getVatComputation(total_sales).vatable_sales,
+        vat: getVatComputation(total_sales).vat,
+        total_amount: total_amount,
+        total_sales: total_sales,
+      },
+    });
   } catch (error) {
     res.status(400).send({ status: "failed", message: error.message });
   }
