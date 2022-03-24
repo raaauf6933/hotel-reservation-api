@@ -5,6 +5,9 @@ const User = require("./../models/users");
 const { generateAuthToken } = require("./../utils/misc");
 const _ = require("lodash");
 const bcrypt = require("bcrypt");
+const {
+  bookingStatus: { PENDING, CONFIRMED },
+} = require("./../utils/enums");
 
 // Client Auth
 router.post("/client", async (req, res) => {
@@ -16,7 +19,8 @@ router.post("/client", async (req, res) => {
       booking_reference,
       "guest.email": email,
     });
-    if (!result) throw { message: "invalid credentials" };
+    if (!result || ![PENDING, CONFIRMED].includes(result.status))
+      throw { message: "invalid credentials" };
 
     const token = generateAuthToken(_.pick(result, ["_id"]));
 
