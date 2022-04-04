@@ -27,6 +27,9 @@ const {
   createOnlineBooking,
   createWalkinBooking,
 } = require("./../controller/bookings/createBooking");
+const {
+  guestModifyBooking,
+} = require("./../controller/bookings/guestModifyBooking");
 const validateBooking = require("./../controller/bookings/validateBooking");
 
 // Get Bookings
@@ -76,6 +79,8 @@ router.post("/booking", async (req, res) => {
 });
 
 router.post("/create_booking", validateBooking, createOnlineBooking);
+
+router.post("/guest_modify_booking", validateBooking, guestModifyBooking);
 
 router.post("/create_booking_walkin", createWalkinBooking);
 

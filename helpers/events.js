@@ -8,6 +8,7 @@ const UPDATE_EXPIRED = "UPDATE_EXPIRED";
 const ADD_AMENITY = "ADD_AMENITY";
 const ADD_DISCOUNT = "ADD_DISCOUNT";
 const CANCELLED = "CANCELLED";
+const GUEST_MODIFY_BOOKING = "GUEST_MODIFY_BOOKING";
 
 exports.createEvent = (type, params) => {
   switch (type) {
@@ -107,6 +108,18 @@ exports.createEvent = (type, params) => {
         additional_type: "",
         created: moment.tz("Asia/Manila").format(),
       };
+    case GUEST_MODIFY_BOOKING:
+      return {
+        type: "GUEST_MODIFY_BOOKING",
+        message: "Booking has been Changed",
+        images: [],
+        user: "",
+        amount: 0,
+        quantity: 0,
+        discount_type: "",
+        additional_type: "",
+        created: moment.tz("Asia/Manila").format(),
+      };
     default:
       break;
   }
@@ -121,4 +134,5 @@ exports.eventType = {
   ADD_AMENITY,
   ADD_DISCOUNT,
   CANCELLED,
+  GUEST_MODIFY_BOOKING,
 };
