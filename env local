@@ -1,7 +1,7 @@
 DB_URL=mongodb://localhost/hotel-reservation-api
 jwtPrivateKey=hotelreservationapp
 EMAIL_USER=kellinquinn180@gmail.com
-
+REACT_APP_URL=http://localhost:3000
 
 CLIENT_ID=610872631269-un4rljklhofn6415irm5b878c52kvgrv.apps.googleusercontent.com
 CLIENT_SECRET=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

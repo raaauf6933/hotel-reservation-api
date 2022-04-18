@@ -47,18 +47,25 @@ router.post("/", async (req, res) => {
 });
 
 router.post("/create_user", async (req, res) => {
-  const { username, password, first_name, last_name } = req.body;
+  const { username, password, first_name, last_name, email } = req.body;
 
   let user = await User.findOne({ username });
+  let verifyEmail = await User.findOne({ email });
   if (user)
     return res
       .status(400)
-      .send({ status: "failed", message: "User already registered." });
+      .send({ status: "failed", message: "Username already registered." });
+
+  if (verifyEmail)
+    return res
+      .status(400)
+      .send({ status: "failed", message: "Email already registered." });
 
   try {
     user = new User({
       first_name,
       last_name,
+      email,
       username,
       password,
       status: "ACT",
