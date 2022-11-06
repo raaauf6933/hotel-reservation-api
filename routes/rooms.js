@@ -24,6 +24,7 @@ router.get("/", async (req, res) => {
 
 router.post("/available_rooms", async (req, res) => {
   const { checkIn, checkOut } = req.body;
+  const params = req.query;
 
   try {
     if (!moment(checkIn).isValid() || !moment(checkOut).isValid()) {
@@ -71,6 +72,7 @@ router.post("/available_rooms", async (req, res) => {
 
     const room_types_result = await RoomTypes.find({
       status: { $in: ["ACT", "DEACT"] },
+      "details.no_person": parseInt(params?.guest),
     });
 
     extracted_booking_fields.forEach((e) => {

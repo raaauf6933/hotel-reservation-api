@@ -47,6 +47,7 @@ app.use("/api/admin/email", email);
 app.use("/api/admin/reports", reports);
 app.use("/api/admin/amenity", amenities);
 app.use("/api/admin/discount", discounts);
+app.use("/api/admin/reviews", require("./routes/reviews"));
 
 const port = process.env.PORT || 5000;
 app.listen(port, () => console.log(`Listening on port ${port}`));
