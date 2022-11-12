@@ -1350,7 +1350,7 @@ module.exports = (body) => {
         <td style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:'Open Sans',sans-serif;" align="left">
           
     <div class="v-text-align v-line-height" style="color: #5c5757; line-height: 140%; text-align: left; word-wrap: break-word;">
-      <p style="font-size: 14px; line-height: 140%;"><span style="font-size: 14px; line-height: 19.6px;"><strong><span style="line-height: 19.6px; font-size: 14px;">Cancellation &amp; Rebooking</span></strong></span></p>
+      <p style="font-size: 14px; line-height: 140%;"><span style="font-size: 14px; line-height: 19.6px;"><strong><span style="line-height: 19.6px; font-size: 14px;">Booking &amp; Hotel Policies</span></strong></span></p>
     </div>
   
         </td>
@@ -1358,13 +1358,13 @@ module.exports = (body) => {
     </tbody>
   </table>
   
-  <table style="font-family:'Open Sans',sans-serif;" role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
+  <table style="margin-bottom:5px; font-family:'Open Sans',sans-serif;" role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
     <tbody>
       <tr>
         <td style="overflow-wrap:break-word;word-break:break-word;padding:0px 10px;font-family:'Open Sans',sans-serif;" align="left">
           
     <div class="v-text-align v-line-height" style="color: #5c5757; line-height: 140%; text-align: left; word-wrap: break-word;">
-      <p style="font-size: 14px; line-height: 140%;">&nbsp;- Cancellation of booking is not allowed if the booking is confirmed</p>
+      <p style="font-size: 11px; line-height: 140%;">&nbsp;- Booking Confirmation: The reservation is considered confirmed when you receive a confirmation thru email containing the reference ID. Present this together with a valid ID upon check-in. NO VOUCHER, NO CHECK-IN.</p>
     </div>
   
         </td>
@@ -1372,13 +1372,13 @@ module.exports = (body) => {
     </tbody>
   </table>
   
-  <table style="font-family:'Open Sans',sans-serif;" role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
+  <table style="margin-bottom:5px; font-family:'Open Sans',sans-serif;" role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
     <tbody>
       <tr>
         <td style="overflow-wrap:break-word;word-break:break-word;padding:0px 10px;font-family:'Open Sans',sans-serif;" align="left">
           
     <div class="v-text-align v-line-height" style="color: #5c5757; line-height: 140%; text-align: left; word-wrap: break-word;">
-      <p style="font-size: 14px; line-height: 140%;">&nbsp;- Rebooking/Modifying of booking is not allowed if the booking is confirmed</p>
+      <p style="font-size: 11px; line-height: 140%;">&nbsp;- Booking Modification/Cancellation: Cancellation and modification is not allowed. This booking is 100% confirmed once paid.</p>
     </div>
   
         </td>
@@ -1386,20 +1386,155 @@ module.exports = (body) => {
     </tbody>
   </table>
   
-  <table style="font-family:'Open Sans',sans-serif;" role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
+  <table style="margin-bottom:5px; font-family:'Open Sans',sans-serif;" role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
     <tbody>
       <tr>
         <td style="overflow-wrap:break-word;word-break:break-word;padding:0px 10px;font-family:'Open Sans',sans-serif;" align="left">
           
     <div class="v-text-align v-line-height" style="color: #5c5757; line-height: 140%; text-align: left; word-wrap: break-word;">
-      <p style="font-size: 14px; line-height: 140%;">&nbsp;- No Refund</p>
+      <p style="font-size: 11px; line-height: 140%;">&nbsp;- Prepayment: Full prepayment is required to confirm your reservation. This is nonrefundable.</p>
     </div>
   
         </td>
       </tr>
     </tbody>
   </table>
+
+  <table style="margin-bottom:5px; font-family:'Open Sans',sans-serif;" role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
+    <tbody>
+      <tr>
+        <td style="overflow-wrap:break-word;word-break:break-word;padding:0px 10px;font-family:'Open Sans',sans-serif;" align="left">
+          
+    <div class="v-text-align v-line-height" style="color: #5c5757; line-height: 140%; text-align: left; word-wrap: break-word;">
+      <p style="font-size: 11px; line-height: 140%;">&nbsp;- Modification: Change date or rebooking not allowed.
+      Cancellation: Not Allowed
+      No Show: Your 100% prepayment will be forfeited if you do not arrive within 24 hours of the check-in date and time of the hotel.</p>
+    </div>
   
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <table style="margin-bottom:5px; font-family:'Open Sans',sans-serif;" role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
+  <tbody>
+    <tr>
+      <td style="overflow-wrap:break-word;word-break:break-word;padding:0px 10px;font-family:'Open Sans',sans-serif;" align="left">
+        
+  <div class="v-text-align v-line-height" style="color: #5c5757; line-height: 140%; text-align: left; word-wrap: break-word;">
+    <p style="font-size: 11px; line-height: 140%;">&nbsp;- Cancellation caused by Acts of Nature & National Events: The resort will not be held liable for services not rendered or for any loss or damage due to natural calamity, flight or boat transfer cancellations due to bad weather condition and national events. If a booking was cancelled by the client because of force majeure, there will be no refund but is re-bookable to a new tour date within 30 days subject to room availability and rate difference if any. </p>
+  </div>
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table style="margin-bottom:5px; font-family:'Open Sans',sans-serif;" role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
+  <tbody>
+    <tr>
+      <td style="overflow-wrap:break-word;word-break:break-word;padding:0px 10px;font-family:'Open Sans',sans-serif;" align="left">
+        
+  <div class="v-text-align v-line-height" style="color: #5c5757; line-height: 140%; text-align: left; word-wrap: break-word;">
+    <p style="font-size: 11px; line-height: 140%;">&nbsp;- Check-in and Check-out Policy: Check-in time is at 3:00 pm and check-out time is at 12:00 noon. Early check-in or late check-out will depend on room availability and with corresponding charges </p>
+  </div>
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table style="margin-bottom:5px; font-family:'Open Sans',sans-serif;" role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
+  <tbody>
+    <tr>
+      <td style="overflow-wrap:break-word;word-break:break-word;padding:0px 10px;font-family:'Open Sans',sans-serif;" align="left">
+        
+  <div class="v-text-align v-line-height" style="color: #5c5757; line-height: 140%; text-align: left; word-wrap: break-word;">
+    <p style="font-size: 11px; line-height: 140%;">&nbsp;- Kid Policy: Kids sharing room with parents from 0-4 years old are free.
+    </p>
+  </div>
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table style="margin-bottom:5px; font-family:'Open Sans',sans-serif;" role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
+  <tbody>
+    <tr>
+      <td style="overflow-wrap:break-word;word-break:break-word;padding:0px 10px;font-family:'Open Sans',sans-serif;" align="left">
+        
+  <div class="v-text-align v-line-height" style="color: #5c5757; line-height: 140%; text-align: left; word-wrap: break-word;">
+    <p style="font-size: 11px; line-height: 140%;">&nbsp;- Non-smoking Policy: In order to maintain the beauty and comfort of our accommodation, for non-smoking rooms, violators will be charged a penalty fee equivalent to 2 nights based on published rates.
+    </p>
+  </div>
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table style="margin-bottom:5px; font-family:'Open Sans',sans-serif;" role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
+  <tbody>
+    <tr>
+      <td style="overflow-wrap:break-word;word-break:break-word;padding:0px 10px;font-family:'Open Sans',sans-serif;" align="left">
+        
+  <div class="v-text-align v-line-height" style="color: #5c5757; line-height: 140%; text-align: left; word-wrap: break-word;">
+    <p style="font-size: 11px; line-height: 140%;">&nbsp;- No Show Policy: Full payment will be forfeited if guest do not arrive within 24 hours of the check-in date and time of the hotel.
+    </p>
+  </div>
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+  
+<table style="margin-bottom:5px; font-family:'Open Sans',sans-serif;" role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
+  <tbody>
+    <tr>
+      <td style="overflow-wrap:break-word;word-break:break-word;padding:0px 10px;font-family:'Open Sans',sans-serif;" align="left">
+        
+  <div class="v-text-align v-line-height" style="color: #5c5757; line-height: 140%; text-align: left; word-wrap: break-word;">
+    <p style="font-size: 11px; line-height: 140%;">&nbsp;- Online Promo Rate: Online promo rates are not applicable for Senior Citizen and PWD (Persons with disabilities) discounts. 
+    </p>
+  </div>
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+<table style="margin-bottom:5px; font-family:'Open Sans',sans-serif;" role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
+  <tbody>
+    <tr>
+      <td style="overflow-wrap:break-word;word-break:break-word;padding:0px 10px;font-family:'Open Sans',sans-serif;" align="left">
+        
+  <div class="v-text-align v-line-height" style="color: #5c5757; line-height: 140%; text-align: left; word-wrap: break-word;">
+    <p style="font-size: 11px; line-height: 140%;">&nbsp;- Room Upgrade: Upgrade to a higher category is subject to room availability and rate difference. Full prepayment is required. For inquiries, contact our reservation team + 63 927 541 0656 
+    </p>
+  </div>
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table style="margin-bottom:5px; font-family:'Open Sans',sans-serif;" role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
+  <tbody>
+    <tr>
+      <td style="overflow-wrap:break-word;word-break:break-word;padding:0px 10px;font-family:'Open Sans',sans-serif;" align="left">
+        
+  <div class="v-text-align v-line-height" style="color: #5c5757; line-height: 140%; text-align: left; word-wrap: break-word;">
+    <p style="font-size: 11px; line-height: 140%;">&nbsp;- Special Request/Preferences: Bed type, smoking and non-smoking preference and room allocation are all subject to availability upon check-in. The resort voucher indicates the room and the services you have paid for. Anything that has been overlooked should be paid at the resort.
+    </p>
+  </div>
+
+      </td>
+    </tr>
+  </tbody>
+</table>
+
     <!--[if (!mso)&(!IE)]><!--></div><!--<![endif]-->
     </div>
   </div>
