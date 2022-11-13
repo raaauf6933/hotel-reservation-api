@@ -30,11 +30,14 @@ const roomTypesSchema = new mongoose.Schema(
         type: Number,
         required: true,
         min: 1,
-        max: 10,
+        max: 50,
       },
       isKitchen: {
         type: Boolean,
         required: true,
+      },
+      description: {
+        type: String,
       },
     }),
     images: [
