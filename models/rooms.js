@@ -13,13 +13,13 @@ const roomTypesSchema = new mongoose.Schema(
       no_bed: {
         type: Number,
         required: true,
-        min: 1,
+        min: 0,
         max: 10,
       },
       no_bath: {
         type: Number,
         required: true,
-        min: 1,
+        min: 0,
         max: 10,
       },
       isAircon: {
