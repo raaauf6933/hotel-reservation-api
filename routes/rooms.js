@@ -72,7 +72,9 @@ router.post("/available_rooms", async (req, res) => {
 
     const room_types_result = await RoomTypes.find({
       status: { $in: ["ACT", "DEACT"] },
-      "details.no_person": parseInt(params?.guest),
+      ...(params?.guest
+        ? { "details.no_person": parseInt(params?.guest) }
+        : {}),
     });
 
     extracted_booking_fields.forEach((e) => {
