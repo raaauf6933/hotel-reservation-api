@@ -45,7 +45,20 @@ const sendEmail = async (type, params) => {
           //   },
           // ],
         };
+      case "SUPPORT_EMAIL_ADMIN":
+        return {
+          from: "VILLA GREGORIA RESORT <villagregoriaresort@gmail.com>",
+          to: params.to,
+          subject: `${params.name} | ${params.subject}`,
+          html: `<html>
 
+              <p>Name: ${params.name}</p> 
+               <p>Email: ${params.email}</p> 
+              <p>Message: ${params.message}</p>
+         
+              </html>
+            `,
+        };
       default:
         break;
     }
