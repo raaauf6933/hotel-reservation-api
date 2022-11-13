@@ -45,7 +45,7 @@ module.exports = async (req, res) => {
         no_person: data.no_person,
         isAircon: data.isAircon,
         isKitchen: data.isKitchen,
-        description: data?.description,
+        description: data.description,
       },
       room_rate: data.room_rate,
       images: [],

@@ -113,6 +113,8 @@ router.post("/room_type", async (req, res) => {
   const { id } = req.body;
   try {
     const result = await RoomTypes.findById(id);
+
+    console.log(result);
     res.send(result);
   } catch (error) {
     // not found
