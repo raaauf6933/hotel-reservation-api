@@ -2,8 +2,86 @@ const moment = require("moment-timezone");
 const { currencyFormat } = require("./../../utils/misc");
 
 module.exports = (booking) => {
-  const { booking_reference, guest, createdAt } = booking;
+  const {
+    booking_reference,
+    check_in,
+    check_out,
+    guest,
+    createdAt,
+    billing,
+    rooms,
+    payment,
+  } = booking;
   const { first_name, last_name, no_guest } = guest;
+
+  const getNoQuantity = (roomtype_id) => {
+    return rooms.filter((obj) => obj.roomtype_id === roomtype_id).length;
+  };
+
+  const getRoomAmount = (roomtype_id, rate) => {
+    const roomTotalAmount = parseInt(getNoQuantity(roomtype_id)) * rate;
+    return roomTotalAmount;
+  };
+
+  const removeDuplicates = rooms.filter(
+    (v, i, a) => a.findIndex((t) => t.roomtype_id === v.roomtype_id) === i
+  );
+
+  const itemBody = removeDuplicates.map((e) => {
+    return {
+      room_name: e.roomtype_name,
+      rate: e.room_amount,
+      qty: getNoQuantity(e.roomtype_id),
+      amount: getRoomAmount(e.roomtype_id, e.room_amount),
+    };
+  });
+
+  const handleGetNoNights = () => {
+    const start = moment(check_in, "YYYY-MM-DD");
+    const end = moment(check_out, "YYYY-MM-DD");
+    const nights = Math.abs(moment.duration(start.diff(end)).asDays());
+    return nights;
+  };
+
+  const getSubTotal = () => {
+    let total = 0;
+    itemBody.map((e) => (total += e.amount));
+    return total;
+  };
+
+  const getTotalAmount = () => {
+    return getSubTotal() * handleGetNoNights();
+  };
+
+  const handleVat = () => {
+    const vatable_sales = getTotalAmount() / 1.12;
+    const vat = getTotalAmount() - vatable_sales;
+
+    return {
+      vatable_sales,
+      vat,
+    };
+  };
+
+  const amount_paid = () => {
+    let payment_amount = 0;
+
+    if (payment.length !== 0) {
+      payment?.map((e) => (payment_amount += e.payment_amount));
+    }
+    return payment_amount;
+  };
+
+  const total_balance = () => {
+    let total_balance = 0;
+
+    total_balance =
+      parseFloat(billing.total_amount) - parseFloat(amount_paid());
+
+    return total_balance;
+  };
+
+  const insufficient_amount = getTotalAmount() / 2 - amount_paid();
 
   return `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
     <html
@@ -1254,7 +1332,9 @@ module.exports = (booking) => {
                                             line-height: 25.2px;
                                           "
                                           ><strong
-                                            >${currencyFormat(1)}</strong
+                                            >${currencyFormat(
+                                              parseFloat(amount_paid())
+                                            )}</strong
                                           ></span
                                         >
                                       </p>
@@ -1435,7 +1515,9 @@ module.exports = (booking) => {
                                             line-height: 25.2px;
                                           "
                                           ><strong
-                                            >${currencyFormat(2)}</strong
+                                            >${currencyFormat(
+                                              insufficient_amount
+                                            )}</strong
                                           ></span
                                         >
                                       </p>
