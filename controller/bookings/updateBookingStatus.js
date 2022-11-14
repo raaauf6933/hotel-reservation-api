@@ -1,5 +1,6 @@
 const Bookings = require("../../models/bookings/bookings");
 const sendEmail = require("./../../helpers/mail");
+const sendCancelEmail = require("./../../helpers/sendEmail");
 const { createEvent, eventType } = require("./../../helpers/events");
 const { getNewStatus } = require("./../../utils/misc");
 const { bookingStatus, bookingType } = require("../../utils/enums");
@@ -72,14 +73,15 @@ exports.updateConfirmed = ({ id, status, paymentAmount, user_name }) => {
             message: "Payment Amount Should be less than Outstanding Balance",
           })
         );
-      } else if (format_total_payment < format_total_balace) {
-        throw Error(
-          JSON.stringify({
-            code: "PAYMENT_INSUFFICIENT",
-            message: "Outstanding balance must be equal to PHP 0.00",
-          })
-        );
       }
+      // else if (format_total_payment < format_total_balace) {
+      //   throw Error(
+      //     JSON.stringify({
+      //       code: "PAYMENT_INSUFFICIENT",
+      //       message: "Outstanding balance must be equal to PHP 0.00",
+      //     })
+      //   );
+      // }
 
       const result = await Bookings.findByIdAndUpdate(id, {
         status: getNewStatus(status),
@@ -184,6 +186,8 @@ exports.cancelBooking = ({ id, status, user_name }) => {
           }),
         },
       });
+
+      await sendCancelEmail("CANCELED", result);
 
       resolve(result);
       // }

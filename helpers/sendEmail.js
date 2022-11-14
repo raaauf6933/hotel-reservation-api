@@ -1,5 +1,7 @@
 const mailer = require("nodemailer");
 const { google } = require("googleapis");
+const notifyEmail = require("./emailTemplate/notifyEmail");
+const cancelBooking = require("./emailTemplate/cancelBooking");
 require("dotenv").config();
 
 const oAuth2Client = new google.auth.OAuth2(
@@ -58,6 +60,27 @@ const sendEmail = async (type, params) => {
          
               </html>
             `,
+        };
+      case "PAYMENT_INSUFFICIENT":
+        return {
+          from: "VILLA GREGORIA RESORT <villagregoriaresort@gmail.com>",
+          to: params.guest.email,
+          subject: `ADVISORY | PAYMENT`,
+          html: notifyEmail(params),
+          attachments: [
+            {
+              filename: "check_image.png",
+              path: __dirname + "/emailTemplate/pending_image.png",
+              cid: "logo", //same cid value as in the html img src
+            },
+          ],
+        };
+      case "CANCELED":
+        return {
+          from: "VILLA GREGORIA RESORT <villagregoriaresort@gmail.com>",
+          to: params.guest.email,
+          subject: `ADVISORY | BOOKING CANCELED`,
+          html: cancelBooking(params),
         };
       default:
         break;

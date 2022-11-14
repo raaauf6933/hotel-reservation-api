@@ -148,4 +148,6 @@ router.post("/add_amenity", auth, addAmenity);
 
 router.post("/add_discount", auth, addDiscount);
 
+router.post("/add_discount", auth, addDiscount);
+
 module.exports = router;

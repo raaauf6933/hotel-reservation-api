@@ -112,6 +112,14 @@ router.post("/extract_report", async (req, res) => {
             $lt: startTo,
           },
         };
+      case "CANCELLED":
+        return {
+          status: "CANCELLED",
+          createdAt: {
+            $gte: startFrom,
+            $lt: startTo,
+          },
+        };
       default:
         return {
           createdAt: {
