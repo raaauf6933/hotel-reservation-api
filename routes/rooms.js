@@ -9,6 +9,7 @@ const { statuses } = require("./../utils/enums");
 const moment = require("moment-timezone");
 const Booking = require("./../models/bookings/bookings");
 const _ = require("lodash");
+const uploadSingleImage = require("../controller/uploadSingleImage");
 // const cloudinary = require("cloudinary");
 
 router.get("/", async (req, res) => {
@@ -111,10 +112,14 @@ router.post("/available_rooms", async (req, res) => {
 
 router.post("/room_type", async (req, res) => {
   const { id } = req.body;
+
+
   try {
     const result = await RoomTypes.findById(id);
 
-    console.log(result);
+    console.log(result)
+
+   
     res.send(result);
   } catch (error) {
     // not found
@@ -180,18 +185,22 @@ router.post("/update_room_type", async (req, res) => {
     const result = await RoomTypes.findByIdAndUpdate(id, {
       name: data.name,
       details: {
-        no_person: data.no_bed,
+        no_person: data.no_person,
         no_bed: data.no_bed,
         no_bath: data.no_bath,
         isAircon: data.isAircon,
         isKitchen: data.isKitchen,
+        description: data.description
       },
+      images: data.images,
       room_rate: data.room_rate,
       status: data.status,
     });
-    res.status(200).send(result);
+
+    console.log(result)
+    res.status(200).send({result});
   } catch (error) {
-    res.status(400).send({ message: "error" });
+    res.status(400).send({ message: error.message });
   }
 });
 
@@ -216,6 +225,29 @@ router.post(
   },
   uploadRoomImage
 );
+
+// Upload room image
+router.post(
+  "/upload_single_image",
+  async (req, res, next) => {
+    upload(req, res, function (err) {
+      if (err instanceof multer.MulterError) {
+        return res.status(500).json({
+          success: false,
+          message: "Internal server error",
+        });
+      } else if (err) {
+        return res.status(400).json({
+          success: false,
+          error: "Invalid file format. Please use valid image file (png/jpg)",
+        });
+      }
+      next();
+    });
+  },
+  uploadSingleImage
+);
+
 
 router.post("/delete_roomtype", async (req, res) => {
   const { id } = req.body;

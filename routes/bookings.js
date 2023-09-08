@@ -48,6 +48,18 @@ router.post("/bookings", async (req, res) => {
   }
 });
 
+router.get("/guess_booking", async (req, res) => {
+  try {
+    const booking = await Bookings.find({
+      "guest.id": req.query.id,
+    });
+
+    res.json(booking);
+  } catch (error) {
+    res.json(error);
+  }
+});
+
 // Get Booking
 router.post("/booking", async (req, res) => {
   const { body } = req;

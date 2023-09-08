@@ -48,7 +48,7 @@ module.exports = async (req, res) => {
         description: data.description,
       },
       room_rate: data.room_rate,
-      images: [],
+      images: data.images,
       rooms: [],
       status: data.status,
     });

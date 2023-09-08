@@ -2,6 +2,9 @@ const mongoose = require("mongoose");
 
 exports.guest = () => {
   return new mongoose.Schema({
+    customer_id: {
+      type: String,
+    },
     first_name: {
       type: String,
     },
@@ -102,6 +105,10 @@ exports.billing = () => {
       type: Number,
       required: true,
     },
+    payment_type: {
+      type: String,
+      required: true,
+    }
   });
 };
 

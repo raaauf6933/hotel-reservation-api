@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Bookings = require("./../models/bookings/bookings");
 const User = require("./../models/users");
+const Customer = require("./../models/customers");
 const { generateAuthToken } = require("./../utils/misc");
 const _ = require("lodash");
 const bcrypt = require("bcrypt");
@@ -10,7 +11,7 @@ const {
 } = require("./../utils/enums");
 const sendEmail = require("./../helpers/sendEmail");
 
-// Client Auth
+// Client Auth for not registerd user 
 router.post("/client", async (req, res) => {
   const { body } = req;
   const { booking_reference, email } = body;
@@ -30,6 +31,34 @@ router.post("/client", async (req, res) => {
     res.status(400).send({ status: "failed", message: error.message });
   }
 });
+
+
+router.post("/client_login",async (req,res)=> {
+  const { body } = req;
+  const { email, password } = body;
+
+
+  let customer = await Customer.findOne({ email });
+  if (!customer)
+    return res
+      .status(400)
+      .send({ status: "failed", message: "Invalid email or password." });
+
+  const validPassword = await bcrypt.compare(password, customer.password);
+  if (!validPassword)
+    return res
+      .status(400)
+      .send({ status: "failed", message: "Invalid email or password." });
+
+  const token = generateAuthToken({
+    _id: customer._id,
+    email: customer.email,
+    first_name: customer.first_name,
+    last_name: customer.last_name,
+  });
+  res.status(200).send({ status: "success", token });
+
+})
 
 // Admin Auth
 router.post("/admin", async (req, res) => {

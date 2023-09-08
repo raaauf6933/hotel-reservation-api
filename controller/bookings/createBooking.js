@@ -53,6 +53,7 @@ exports.createOnlineBooking = async (req, res) => {
       sub_total: createNewBilling(),
       total_amount: body.totalAmount,
       additional_total: 0,
+      payment_type: body.payment_type
     },
     events: [createEvent(eventType.BOOKING_CREATED)],
     payment: [],
@@ -63,7 +64,7 @@ exports.createOnlineBooking = async (req, res) => {
 
   try {
     let result = await newBookings.save();
-    sendEmail(result, { type: bookingStatus.PENDING });
+    // sendEmail(result, { type: bookingStatus.PENDING });
     res.status(200).send(newBookings);
   } catch (error) {
     console.log(error);
