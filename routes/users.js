@@ -47,7 +47,7 @@ router.post("/", async (req, res) => {
 });
 
 router.post("/create_user", async (req, res) => {
-  const { username, password, first_name, last_name, email } = req.body;
+  const { username, password, first_name, last_name, email, user_type } = req.body;
 
   let user = await User.findOne({ username });
   let verifyEmail = await User.findOne({ email });
@@ -69,6 +69,7 @@ router.post("/create_user", async (req, res) => {
       username,
       password,
       status: "ACT",
+      user_type,
     });
     const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(user.password, salt);

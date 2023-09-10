@@ -81,6 +81,7 @@ router.post("/admin", async (req, res) => {
     username: user.username,
     first_name: user.first_name,
     last_name: user.last_name,
+    user_type: user.user_type,
   });
   res.status(200).send({ status: "success", token });
 });

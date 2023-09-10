@@ -207,9 +207,9 @@ a[x-apple-data-detectors='true'] {
     
 
 <div class="u-row-container" style="padding: 0px;background-color: transparent">
-  <div class="u-row" style="Margin: 0 auto;min-width: 320px;max-width: 600px;overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: #f06b41;">
+  <div class="u-row" style="Margin: 0 auto;min-width: 320px;max-width: 600px;overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: #1A1A1A;">
     <div style="border-collapse: collapse;display: table;width: 100%;background-color: transparent;">
-      <!--[if (mso)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding: 0px;background-color: transparent;" align="center"><table cellpadding="0" cellspacing="0" border="0" style="width:600px;"><tr style="background-color: #f06b41;"><![endif]-->
+      <!--[if (mso)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding: 0px;background-color: transparent;" align="center"><table cellpadding="0" cellspacing="0" border="0" style="width:600px;"><tr style="background-color: #1A1A1A;"><![endif]-->
       
 <!--[if (mso)|(IE)]><td align="center" width="600" class="v-col-padding" style="width: 600px;padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;" valign="top"><![endif]-->
 <div class="u-col u-col-100" style="max-width: 320px;min-width: 600px;display: table-cell;vertical-align: top;">
@@ -222,7 +222,7 @@ a[x-apple-data-detectors='true'] {
       <td style="overflow-wrap:break-word;word-break:break-word;padding:16px;font-family:'Open Sans',sans-serif;" align="left">
         
   <div class="v-text-align v-line-height" style="color: #ecf7ff; line-height: 140%; text-align: center; word-wrap: break-word;">
-    <p style="font-size: 14px; line-height: 140%; text-align: left;"><span style="font-size: 20px; line-height: 28px;">Villa Gregoria Resort</span></p>
+    <p style="font-size: 14px; line-height: 140%; text-align: left;"><span style="font-size: 20px; line-height: 28px;">Grand Villa Resort</span></p>
   </div>
 
       </td>
@@ -812,7 +812,7 @@ a[x-apple-data-detectors='true'] {
       <td style="overflow-wrap:break-word;word-break:break-word;padding:0px 10px 10px;font-family:'Open Sans',sans-serif;" align="left">
         
   <div class="v-text-align v-line-height" style="color: #615e5e; line-height: 140%; text-align: left; word-wrap: break-word;">
-    <p style="font-size: 14px; line-height: 140%;">Brgy. Tuboy, Nagcarlan, Laguna, Philippines</p>
+    <p style="font-size: 14px; line-height: 140%;">P. Herrera St 866, Pateros, NCR, Philippines</p>
   </div>
 
       </td>
@@ -1839,7 +1839,7 @@ ${itemBody
       <td style="overflow-wrap:break-word;word-break:break-word;padding:0px 10px 10px;font-family:'Open Sans',sans-serif;" align="left">
         
   <div class="v-text-align v-line-height" style="color: #615e5e; line-height: 140%; text-align: left; word-wrap: break-word;">
-    <p style="font-size: 14px; line-height: 140%;">Email : <strong>villagregoriaresort@gmail.com</strong></p>
+    <p style="font-size: 14px; line-height: 140%;">Email : <strong>grandvillahotel.restaurant@gmail.com</strong></p>
   </div>
 
       </td>
@@ -1894,9 +1894,9 @@ ${itemBody
 
 
 <div class="u-row-container" style="padding: 0px;background-color: transparent">
-  <div class="u-row" style="Margin: 0 auto;min-width: 320px;max-width: 600px;overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: #f06b41;">
+  <div class="u-row" style="Margin: 0 auto;min-width: 320px;max-width: 600px;overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: #1A1A1A;">
     <div style="border-collapse: collapse;display: table;width: 100%;background-color: transparent;">
-      <!--[if (mso)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding: 0px;background-color: transparent;" align="center"><table cellpadding="0" cellspacing="0" border="0" style="width:600px;"><tr style="background-color: #f06b41;"><![endif]-->
+      <!--[if (mso)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding: 0px;background-color: transparent;" align="center"><table cellpadding="0" cellspacing="0" border="0" style="width:600px;"><tr style="background-color: #1A1A1A;"><![endif]-->
       
 <!--[if (mso)|(IE)]><td align="center" width="600" class="v-col-padding" style="width: 600px;padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;" valign="top"><![endif]-->
 <div class="u-col u-col-100" style="max-width: 320px;min-width: 600px;display: table-cell;vertical-align: top;">
@@ -1909,7 +1909,7 @@ ${itemBody
       <td style="overflow-wrap:break-word;word-break:break-word;padding:16px;font-family:'Open Sans',sans-serif;" align="left">
         
   <div class="v-text-align v-line-height" style="color: #ecf7ff; line-height: 140%; text-align: center; word-wrap: break-word;">
-    <p style="font-size: 14px; line-height: 140%;">&copy; Villa Gregoria Resort. All Rights Reserved</p>
+    <p style="font-size: 14px; line-height: 140%;">&copy; Grand Villa Resort. All Rights Reserved</p>
   </div>
 
       </td>
@@ -2135,7 +2135,7 @@ ${itemBody
 //                   overflow-wrap: break-word;
 //                   word-wrap: break-word;
 //                   word-break: break-word;
-//                   background-color: #f06b41;
+//                   background-color: #1A1A1A;
 //                 "
 //               >
 //                 <div
@@ -2146,7 +2146,7 @@ ${itemBody
 //                     background-color: transparent;
 //                   "
 //                 >
-//                   <!--[if (mso)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding: 0px;background-color: transparent;" align="center"><table cellpadding="0" cellspacing="0" border="0" style="width:600px;"><tr style="background-color: #f06b41;"><![endif]-->
+//                   <!--[if (mso)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding: 0px;background-color: transparent;" align="center"><table cellpadding="0" cellspacing="0" border="0" style="width:600px;"><tr style="background-color: #1A1A1A;"><![endif]-->
 
 //                   <!--[if (mso)|(IE)]><td align="center" width="600" class="v-col-padding" style="width: 600px;padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;" valign="top"><![endif]-->
 //                   <div
@@ -2206,7 +2206,7 @@ ${itemBody
 //                                   >
 //                                     <span
 //                                       style="font-size: 20px; line-height: 28px"
-//                                       >Villa Gregoria Resort</span
+//                                       >Grand Villa Resort</span
 //                                     >
 //                                   </p>
 //                                 </div>
@@ -7165,7 +7165,7 @@ ${itemBody
 //                   overflow-wrap: break-word;
 //                   word-wrap: break-word;
 //                   word-break: break-word;
-//                   background-color: #f06b41;
+//                   background-color: #1A1A1A;
 //                 "
 //               >
 //                 <div
@@ -7176,7 +7176,7 @@ ${itemBody
 //                     background-color: transparent;
 //                   "
 //                 >
-//                   <!--[if (mso)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding: 0px;background-color: transparent;" align="center"><table cellpadding="0" cellspacing="0" border="0" style="width:600px;"><tr style="background-color: #f06b41;"><![endif]-->
+//                   <!--[if (mso)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding: 0px;background-color: transparent;" align="center"><table cellpadding="0" cellspacing="0" border="0" style="width:600px;"><tr style="background-color: #1A1A1A;"><![endif]-->
 
 //                   <!--[if (mso)|(IE)]><td align="center" width="600" class="v-col-padding" style="width: 600px;padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;" valign="top"><![endif]-->
 //                   <div
@@ -7228,7 +7228,7 @@ ${itemBody
 //                                   "
 //                                 >
 //                                   <p style="font-size: 14px; line-height: 140%">
-//                                     &copy; Villa Gregoria Resort. All Rights
+//                                     &copy; Grand Villa Resort. All Rights
 //                                     Reserved
 //                                   </p>
 //                                 </div>

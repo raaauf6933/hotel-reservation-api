@@ -64,7 +64,7 @@ exports.createOnlineBooking = async (req, res) => {
 
   try {
     let result = await newBookings.save();
-    // sendEmail(result, { type: bookingStatus.PENDING });
+    sendEmail(result, { type: bookingStatus.PENDING });
     res.status(200).send(newBookings);
   } catch (error) {
     console.log(error);

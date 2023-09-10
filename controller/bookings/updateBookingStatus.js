@@ -170,14 +170,27 @@ exports.updateCheckIn = ({ id, status, paymentAmount, user_name }) => {
 exports.cancelBooking = ({ id, status, user_name }) => {
   return new Promise(async (resolve, reject) => {
     try {
-      // if (status !== "PENDING") {
-      //   throw Error(
-      //     JSON.stringify({
-      //       code: "CANCEL_NOT_PENDING",
-      //       message: "Unable to Cancel. Booking must be in Pending Status",
-      //     })
-      //   );
-      // } else {
+      const booking = await Bookings.findById(id)
+
+      if(!booking){
+        throw Error(
+          JSON.stringify({
+            code: "BOOKING_NOT_FOUND",
+            message: "Unable to find Booking.",
+          })
+        );
+      }
+
+      console.log(booking)
+      
+      if (booking?.status !== "PENDING") {
+        throw Error(
+          JSON.stringify({
+            code: "CANCEL_NOT_PENDING",
+            message: "Unable to Cancel. Booking must be in Pending Status",
+          })
+        );
+      } 
       const result = await Bookings.findByIdAndUpdate(id, {
         status: "CANCELLED",
         $push: {

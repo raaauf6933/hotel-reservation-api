@@ -196,7 +196,7 @@ module.exports = (booking) => {
                       overflow-wrap: break-word;
                       word-wrap: break-word;
                       word-break: break-word;
-                      background-color: #f06b41;
+                      background-color: #1A1A1A;
                     "
                   >
                     <div
@@ -207,7 +207,7 @@ module.exports = (booking) => {
                         background-color: transparent;
                       "
                     >
-                      <!--[if (mso)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding: 0px;background-color: transparent;" align="center"><table cellpadding="0" cellspacing="0" border="0" style="width:600px;"><tr style="background-color: #f06b41;"><![endif]-->
+                      <!--[if (mso)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding: 0px;background-color: transparent;" align="center"><table cellpadding="0" cellspacing="0" border="0" style="width:600px;"><tr style="background-color: #1A1A1A;"><![endif]-->
     
                       <!--[if (mso)|(IE)]><td align="center" width="600" class="v-col-padding" style="width: 600px;padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;" valign="top"><![endif]-->
                       <div
@@ -267,7 +267,7 @@ module.exports = (booking) => {
                                       >
                                         <span
                                           style="font-size: 20px; line-height: 28px"
-                                          >Villa Gregoria Resort</span
+                                          >Grand Villa Resort</span
                                         >
                                       </p>
                                     </div>
@@ -433,7 +433,7 @@ module.exports = (booking) => {
                                         <br />
                                         <span>
                                           <strong>Email </strong>:
-                                          villagregoriaresort@gmail.com</span
+                                          grandvillahotel.restaurant@gmail.com</span
                                         >
                                       </p>
                                       <br />
@@ -818,7 +818,7 @@ module.exports = (booking) => {
                       overflow-wrap: break-word;
                       word-wrap: break-word;
                       word-break: break-word;
-                      background-color: #f06b41;
+                      background-color: #1A1A1A;
                     "
                   >
                     <div
@@ -829,7 +829,7 @@ module.exports = (booking) => {
                         background-color: transparent;
                       "
                     >
-                      <!--[if (mso)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding: 0px;background-color: transparent;" align="center"><table cellpadding="0" cellspacing="0" border="0" style="width:600px;"><tr style="background-color: #f06b41;"><![endif]-->
+                      <!--[if (mso)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding: 0px;background-color: transparent;" align="center"><table cellpadding="0" cellspacing="0" border="0" style="width:600px;"><tr style="background-color: #1A1A1A;"><![endif]-->
     
                       <!--[if (mso)|(IE)]><td align="center" width="600" class="v-col-padding" style="width: 600px;padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;" valign="top"><![endif]-->
                       <div
@@ -881,7 +881,7 @@ module.exports = (booking) => {
                                       "
                                     >
                                       <p style="font-size: 14px; line-height: 140%">
-                                        &copy; Villa Gregoria Resort. All Rights
+                                        &copy; Grand Villa Resort. All Rights
                                         Reserved
                                       </p>
                                     </div>

@@ -30,7 +30,7 @@ const sendEmail = async (type, params) => {
     switch (type) {
       case "RESET_PASSWORD":
         return {
-          from: "VILLA GREGORIA RESORT <villagregoriaresort@gmail.com>",
+          from: "Grand Villa Resort <grandvillahotel.restaurant@gmail.com>",
           to: params.user.email,
           subject: `RESET PASSWORD | ${params.user.username}`,
           html: `<html>
@@ -49,7 +49,7 @@ const sendEmail = async (type, params) => {
         };
       case "SUPPORT_EMAIL_ADMIN":
         return {
-          from: "VILLA GREGORIA RESORT <villagregoriaresort@gmail.com>",
+          from: "Grand Villa Resort <grandvillahotel.restaurant@gmail.com>",
           to: params.to,
           subject: `${params.name} | ${params.subject}`,
           html: `<html>
@@ -63,7 +63,7 @@ const sendEmail = async (type, params) => {
         };
       case "PAYMENT_INSUFFICIENT":
         return {
-          from: "VILLA GREGORIA RESORT <villagregoriaresort@gmail.com>",
+          from: "Grand Villa Resort <grandvillahotel.restaurant@gmail.com>",
           to: params.guest.email,
           subject: `ADVISORY | PAYMENT`,
           html: notifyEmail(params),
@@ -77,7 +77,7 @@ const sendEmail = async (type, params) => {
         };
       case "CANCELED":
         return {
-          from: "VILLA GREGORIA RESORT <villagregoriaresort@gmail.com>",
+          from: "Grand Villa Resort <grandvillahotel.restaurant@gmail.com>",
           to: params.guest.email,
           subject: `ADVISORY | BOOKING CANCELED`,
           html: cancelBooking(params),
