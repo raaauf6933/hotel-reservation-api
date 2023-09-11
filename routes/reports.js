@@ -17,7 +17,7 @@ router.get("/dashboard", async (req, res) => {
     const new_booking = await Bookings.find({
       createdAt: { $gte: startOfToday },
     });
-    const pending_booking = await Bookings.find({
+    const pending_booking = await Bookings.count({
       status: bookingStatus.PENDING,
     });
     const confirmed_booking = await Bookings.find({
@@ -25,6 +25,11 @@ router.get("/dashboard", async (req, res) => {
     });
 
     const all_bookings = await Bookings.find();
+
+    const check_ins = await Bookings.count({
+      status: bookingStatus.CHECK_IN,
+    })
+
 
     let sales_today = 0;
     all_bookings.forEach((e) => {
@@ -40,9 +45,10 @@ router.get("/dashboard", async (req, res) => {
 
     res.status(200).send({
       new_booking: new_booking.length,
-      pending_booking: pending_booking.length,
+      pending_booking: pending_booking,
       confirmed_booking: confirmed_booking.length,
       sales_today: sales_today,
+      check_ins
     });
   } catch (error) {
     res.status(400).send(error);

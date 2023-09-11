@@ -7,7 +7,6 @@ module.exports = async (req, res) => {
   let uploaded_images = [];
   let body = JSON.parse(req.body?.data);
   let { id } = body;
-
   try {
     const uploadImagePromise = () =>
       new Promise((resolve, reject) => {

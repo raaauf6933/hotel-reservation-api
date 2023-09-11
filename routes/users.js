@@ -47,7 +47,18 @@ router.post("/", async (req, res) => {
 });
 
 router.post("/create_user", async (req, res) => {
-  const { username, password, first_name, last_name, email, user_type } = req.body;
+  const {
+    username,
+    password,
+    confirm_password,
+    first_name,
+    last_name,
+    email,
+    user_type,
+  } = req.body;
+
+  if (password !== confirm_password)
+    throw Error("Password and Confirmed Password are not match");
 
   let user = await User.findOne({ username });
   let verifyEmail = await User.findOne({ email });
@@ -62,6 +73,9 @@ router.post("/create_user", async (req, res) => {
       .send({ status: "failed", message: "Email already registered." });
 
   try {
+    if (password !== confirm_password)
+      throw Error("Password and Confirmed Password are not match");
+
     user = new User({
       first_name,
       last_name,
@@ -78,6 +92,62 @@ router.post("/create_user", async (req, res) => {
     res.status(200).send(_.pick(user, ["_id", "username"]));
   } catch (error) {
     res.status(400).send({ status: "failed", message: error.message });
+  }
+});
+
+router.post("/edit_user", async (req, res) => {
+  const {
+    id,
+    username,
+    password,
+    confirm_password,
+    first_name,
+    last_name,
+    email,
+    user_type,
+  } = req.body;
+
+  try {
+    let user = await User.findById(id);
+
+    if (!user) {
+      throw Error("User not found");
+    }
+
+    let verifyUser = await User.findOne({ username });
+    let verifyEmail = await User.findOne({ email });
+    if (verifyUser?.id !== id && verifyUser)
+      return res
+        .status(400)
+        .send({ status: "failed", message: "Username already registered." });
+
+    if (verifyEmail?.id !== id && verifyEmail)
+      return res
+        .status(400)
+        .send({ status: "failed", message: "Email already registered." });
+
+    const salt = await bcrypt.genSalt(10);
+    const newPassword = await bcrypt.hash(password, salt);
+
+    if (password !== confirm_password)
+      throw Error("Password and Confirmed Password are not match");
+
+    const result = await User.findByIdAndUpdate(
+      id,
+      {
+        first_name,
+        last_name,
+        user_type,
+        password: newPassword,
+      },
+      {
+        new: true,
+      }
+    );
+
+    return res.status(200).send(result);
+  } catch (error) {
+    return res.status(400).json({ message: error.message });
   }
 });
 
