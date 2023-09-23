@@ -23,7 +23,7 @@ router.post("/", async (req, res) => {
 });
 
 router.post("/create_amenity", async (req, res) => {
-  const { name, rate } = req.body;
+  const { name, rate, status } = req.body;
 
   try {
     await validateAmenity(name);
@@ -31,7 +31,7 @@ router.post("/create_amenity", async (req, res) => {
     let amenity = new Amenities({
       name,
       rate,
-      status: "ACT",
+      status,
     });
 
     const result = await amenity.save();
