@@ -12,6 +12,16 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.post("/", async (req, res) => {
+  const { id } = req.body;
+  try {
+    const result = await Discounts.findById(id);
+    res.status(200).send(result);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+});
+
 router.post("/create_discount", async (req, res) => {
   const { name, type, discount_rate } = req.body;
 
@@ -26,6 +36,23 @@ router.post("/create_discount", async (req, res) => {
     });
 
     const result = await discount.save();
+    res.status(200).send(result);
+  } catch (error) {
+    res.status(400).send({ status: "failed", message: error.message });
+  }
+});
+
+router.post("/edit_discount", async (req, res) => {
+  const { id, name, type, discount_rate, status } = req.body;
+
+  try {
+    const result = await Discounts.findByIdAndUpdate(id, {
+      name,
+      type,
+      discount_rate,
+      status
+    });
+
     res.status(200).send(result);
   } catch (error) {
     res.status(400).send({ status: "failed", message: error.message });
