@@ -8,6 +8,7 @@ const moment = require("moment-timezone");
 const { createEvent, eventType } = require("../../helpers/events");
 const { bookingStatus, bookingType } = require("../../utils/enums");
 const sendEmail = require("./../../helpers/mail");
+const customers = require("../../models/customers");
 
 exports.createOnlineBooking = async (req, res) => {
   const { body } = req;
@@ -75,6 +76,15 @@ exports.createOnlineBooking = async (req, res) => {
 exports.createWalkinBooking = async (req, res) => {
   const { body } = req;
 
+
+  const handleGetNoNights = () => {
+    const start = moment(body.check_in, "YYYY-MM-DD");
+    const end = moment(body.check_out, "YYYY-MM-DD");
+    const nights = Math.abs(moment.duration(start.diff(end)).asDays());
+    return nights;
+  };
+
+
   const booking_reference = createBookingReference();
   let date_time_today = moment.tz("Asia/Manila");
   // Create Billing
@@ -82,12 +92,17 @@ exports.createWalkinBooking = async (req, res) => {
   const createNewBilling = () => {
     const { rooms } = body;
     let total_amount = 0;
+    let sub_total = 0;
     rooms.forEach((room) => {
-      total_amount += room.room_amount;
+      total_amount += room.room_amount * handleGetNoNights();
+      sub_total += room.room_amount
     });
 
-    return total_amount;
+    return {total_amount, sub_total};
   };
+
+
+  const customer = await customers.findById(body.customer);
 
   const createExpirationDate = () => {
     const check_in_format = moment(body.check_in).format("YYYY-MM-DD");
@@ -104,6 +119,16 @@ exports.createWalkinBooking = async (req, res) => {
 
   const newBookings = new Bookings({
     ...body,
+    guest: {
+      customer_id: body.customer,
+      first_name: customer.first_name,
+      last_name: customer.last_name,
+      contact_number: customer.contact_number,
+      email: customer.email,
+      no_guest: body.no_guest,
+      street_address: customer.address.address,
+      city: customer.address.city,
+    },
     booking_reference,
     expiration_date: createExpirationDate(),
     status: bookingStatus.CONFIRMED,
@@ -113,8 +138,9 @@ exports.createWalkinBooking = async (req, res) => {
         type: "",
         amount: 0,
       },
-      sub_total: createNewBilling(),
-      total_amount: body.totalAmount,
+      payment_type: "FULL_PAYMENT",
+      sub_total: createNewBilling().sub_total,
+      total_amount: createNewBilling().total_amount,
       additional_total: 0,
     },
     events: [createEvent(eventType.BOOKING_CREATED)],
