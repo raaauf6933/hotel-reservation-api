@@ -32,11 +32,14 @@ const sendEmail = async (type, params) => {
         return {
           from: "Grand Villa Resort <grandvillahotel.restaurant@gmail.com>",
           to: params.user.email,
-          subject: `RESET PASSWORD | ${params.user.username}`,
+          subject: `RESET PASSWORD | ${params.user.first_name}`,
           html: `<html>
             <span>Hi ${params.user.first_name},</span> <br/><br/>
-            <span>Here's the link to create your new password</span><br/><br/>
-            <a href="${process.env.REACT_APP_URL}/admin/reset-password/${params.token}" >Click Here</a>
+            <span>Forgot your password?</span><br/>
+            <span>We have received a request to reset the password for your account.</span><br/><br/>
+            <a href="${process.env.REACT_APP_URL}/main/reset-password/${params.token}" >Click here to reset your password</a>
+            <br/> <br>
+            <span>[THIS IS AN AUTOMATED MESSAGE - PLEASE DO NOT REPLY DIRECTLY TO THIS EMAIL]<span/>
             </html>
           `,
           // attachments: [

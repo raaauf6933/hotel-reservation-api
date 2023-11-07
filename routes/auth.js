@@ -10,6 +10,7 @@ const {
   bookingStatus: { PENDING, CONFIRMED },
 } = require("./../utils/enums");
 const sendEmail = require("./../helpers/sendEmail");
+const customers = require("./../models/customers");
 
 // Client Auth for not registerd user 
 router.post("/client", async (req, res) => {
@@ -144,5 +145,65 @@ router.post("/admin/reset-password", async (req, res) => {
     });
   }
 });
+
+
+router.post("/customer/request-reset-password", async (req, res) => {
+  const { email } = req.body;
+
+  const user = await customers.findOne({ email });
+  if (!user)
+    return res.status(400).send({
+      status: "failed",
+      code: "USER_NO_FOUND",
+      message: "user with given email doesn't exist",
+    });
+
+  const token = generateAuthToken({
+    _id: user._id,
+    username: user.username,
+    email: email,
+    first_name: user.first_name,
+    last_name: user.last_name,
+  });
+
+  try {
+    sendEmail("RESET_PASSWORD", {
+      email,
+      user,
+      token,
+    });
+    res.status(200).send({ status: "success", email });
+  } catch (error) {
+    res.status(400).send({
+      status: "failed",
+      message: error.message,
+    });
+  }
+});
+
+router.post("/customer/reset-password", async (req, res) => {
+  const { id, password } = req.body;
+
+  const salt = await bcrypt.genSalt(10);
+  const newPassword = await bcrypt.hash(password, salt);
+
+  try {
+    const result = await customers.findByIdAndUpdate(
+      id,
+      {
+        password: newPassword,
+      },
+      {
+        new: true,
+      }
+    );
+    res.status(200).send(result);
+  } catch (error) {
+    res.status(400).send({
+      status: "failed",
+      message: error.message,
+    });
+  }
+})
 
 module.exports = router;

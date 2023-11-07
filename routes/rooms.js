@@ -116,9 +116,6 @@ router.post("/room_type", async (req, res) => {
 
   try {
     const result = await RoomTypes.findById(id);
-
-    console.log(result)
-
    
     res.send(result);
   } catch (error) {
@@ -197,7 +194,7 @@ router.post("/update_room_type", async (req, res) => {
       status: data.status,
     });
 
-    console.log(result)
+
     res.status(200).send({result});
   } catch (error) {
     res.status(400).send({ message: error.message });
@@ -302,4 +299,19 @@ router.post("/delete_room", async (req, res) => {
   }
 });
 
+
+
+router.post("/update_room_status", async (req,res)=> {
+  try {
+   
+    const room_result = await RoomTypes.updateOne({_id: req.body.roomTypeId,'rooms._id': req.body.roomId}, {'$set': {
+      'rooms.$.status': req.body.status,
+  }});
+
+    // console.log(room_result)
+    res.status(200).send(room_result);
+  } catch (error) {
+    res.status(401).json({error})
+  }
+})
 module.exports = router;
