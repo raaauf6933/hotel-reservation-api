@@ -14,7 +14,7 @@ const reports = require("./routes/reports");
 const amenities = require("./routes/amenities");
 const discounts = require("./routes/discount");
 const customers = require("./routes/customers");
-
+const site_settings = require("./routes/site_settings")
 const { expiredBooking } = require("./startup/cronJobs");
 
 require("dotenv").config();
@@ -49,6 +49,7 @@ app.use("/api/admin/email", email);
 app.use("/api/admin/reports", reports);
 app.use("/api/admin/amenity", amenities);
 app.use("/api/admin/discount", discounts);
+app.use("/api/admin/site_settings", site_settings);
 app.use("/api/admin/reviews", require("./routes/reviews"));
 app.use("/api/admin/about_us", require("./routes/about_us"));
 
