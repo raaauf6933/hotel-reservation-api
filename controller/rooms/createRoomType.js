@@ -51,6 +51,7 @@ module.exports = async (req, res) => {
       images: data.images,
       rooms: [],
       status: data.status,
+      isDeleted: false
     });
 
     // Create Room Type

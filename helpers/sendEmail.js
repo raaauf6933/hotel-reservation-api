@@ -50,6 +50,28 @@ const sendEmail = async (type, params) => {
           //   },
           // ],
         };
+      case "RESET_PASSWORD_ADMIN":
+        return {
+          from: "Grand Villa Resort <grandvillahotel.restaurant@gmail.com>",
+          to: params.user.email,
+          subject: `RESET PASSWORD | ${params.user.first_name}`,
+          html: `<html>
+              <span>Hi ${params.user.first_name},</span> <br/><br/>
+              <span>Forgot your password?</span><br/>
+              <span>We have received a request to reset the password for your account.</span><br/><br/>
+              <a href="${process.env.REACT_APP_URL}/admin/reset-password/${params.token}" >Click here to reset your password</a>
+              <br/> <br>
+              <span>[THIS IS AN AUTOMATED MESSAGE - PLEASE DO NOT REPLY DIRECTLY TO THIS EMAIL]<span/>
+              </html>
+            `,
+          // attachments: [
+          //   {
+          //     filename: "check_image.png",
+          //     path: __dirname + "/emailTemplate/pending_image.png",
+          //     cid: "logo", //same cid value as in the html img src
+          //   },
+          // ],
+        };
       case "SUPPORT_EMAIL_ADMIN":
         return {
           from: "Grand Villa Resort <grandvillahotel.restaurant@gmail.com>",

@@ -167,6 +167,7 @@ router.post("/extract_report", async (req, res) => {
       e.payment?.forEach((e) => (total_sales += e.payment_amount));
     });
 
+    console.log(total_sales)
     res.send({
       bookings: result,
       billing: {

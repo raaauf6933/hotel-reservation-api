@@ -107,7 +107,7 @@ router.post("/admin/request-reset-password", async (req, res) => {
   });
 
   try {
-    sendEmail("RESET_PASSWORD", {
+    sendEmail("RESET_PASSWORD_ADMIN", {
       email,
       user,
       token,

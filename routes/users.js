@@ -16,6 +16,7 @@ router.get("/", async (req, res) => {
           "last_name",
           "username",
           "status",
+          "user_type",
           "createdAt"
         );
       })

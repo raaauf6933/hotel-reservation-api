@@ -9,6 +9,10 @@ const roomTypesSchema = new mongoose.Schema(
       minlength: 5,
       maxlength: 255,
     },
+    isDeleted: {
+      type: Boolean,
+      required: false,
+    },
     details: new mongoose.Schema({
       no_bed: {
         type: Number,
@@ -61,6 +65,10 @@ const roomTypesSchema = new mongoose.Schema(
         },
         status: {
           type: String,
+        },
+        isDeleted: {
+          type: Boolean,
+          required: false,
         },
       }),
     ],

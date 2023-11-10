@@ -16,7 +16,9 @@ router.get("/", async (req, res) => {
   try {
     const room_types_result = await RoomTypes.find({
       status: { $in: ["ACT", "DEACT"] },
+      isDeleted: false
     });
+
     res.status(200).send(room_types_result);
   } catch (error) {
     res.status(400).send(error.message);
@@ -73,6 +75,7 @@ router.post("/available_rooms", async (req, res) => {
 
     const room_types_result = await RoomTypes.find({
       status: { $in: ["ACT", "DEACT"] },
+      isDeleted: false,
       ...(params?.guest
         ? { "details.no_person": parseInt(params?.guest) }
         : {}),
@@ -192,6 +195,7 @@ router.post("/update_room_type", async (req, res) => {
       images: data.images,
       room_rate: data.room_rate,
       status: data.status,
+      isDeleted: false
     });
 
 
@@ -251,7 +255,7 @@ router.post("/delete_roomtype", async (req, res) => {
 
   try {
     const result = await RoomTypes.findByIdAndUpdate(id, {
-      status: "DEL",
+      isDeleted: true
     });
 
     res.status(200).send(result);
