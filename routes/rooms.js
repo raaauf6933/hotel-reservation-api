@@ -26,7 +26,7 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/available_rooms", async (req, res) => {
-  const { checkIn, checkOut } = req.body;
+  const { checkIn, checkOut, noGuest  } = req.body;
   const params = req.query;
 
   try {
@@ -76,8 +76,8 @@ router.post("/available_rooms", async (req, res) => {
     const room_types_result = await RoomTypes.find({
       status: { $in: ["ACT", "DEACT"] },
       isDeleted: false,
-      ...(params?.guest
-        ? { "details.no_person": parseInt(params?.guest) }
+      ...(params?.guest || noGuest
+        ? { "details.no_person": {$gte: parseInt(noGuest || params?.guest)} }
         : {}),
     });
 
