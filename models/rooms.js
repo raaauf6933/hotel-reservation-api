@@ -46,7 +46,7 @@ const roomTypesSchema = new mongoose.Schema(
       },
     }),
     images: {
-      type:Array
+      type: Array,
     },
     room_rate: {
       type: Number,
@@ -72,6 +72,26 @@ const roomTypesSchema = new mongoose.Schema(
         },
       }),
     ],
+    promo: new mongoose.Schema({
+      rate: {
+        type: Number,
+        required: false,
+        min: 1,
+        max: 100000,
+      },
+      startDate: {
+        type: String,
+        required: false,
+      },
+      endDate: {
+        type: String,
+        required: false,
+      },
+    }),
+    isActivePromo: {
+      type: Boolean,
+      required: false,
+    },
     status: {
       type: String,
       require: true,

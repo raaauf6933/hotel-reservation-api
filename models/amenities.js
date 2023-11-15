@@ -19,6 +19,10 @@ const AmenitiesSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    isDeleted: {
+      type: Boolean,
+      required: false
+    }
   },
   {
     timestamps: true,

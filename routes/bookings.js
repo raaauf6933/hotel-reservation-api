@@ -165,4 +165,27 @@ router.post("/add_discount", auth, addDiscount);
 
 router.post("/add_discount", auth, addDiscount);
 
+
+router.post("/change_room", async (req, res)=> {
+  const {id, oldRoom, newRoom } = req.body;
+  try {
+   await Bookings.findByIdAndUpdate(id, {
+      $pull: {
+        rooms: {
+          room_id: oldRoom?.room_id
+        }
+      },
+    })
+    await Bookings.findByIdAndUpdate(id, {
+      $push: {
+        rooms: newRoom
+      }
+    })
+
+    return res.json({message: "success"})
+  } catch (error) {
+    return res.status(400).json({error})
+  }
+})
+
 module.exports = router;

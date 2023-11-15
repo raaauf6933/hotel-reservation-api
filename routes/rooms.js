@@ -100,7 +100,7 @@ router.post("/available_rooms", async (req, res) => {
     const filter_rooms = room_types_result.map((room_type) => {
       return {
         ...room_type._doc,
-        rooms: remove_exist(room_type.rooms),
+        rooms: remove_exist(room_type.rooms).filter(e=> e.status === "ACT"),
       };
     });
 
@@ -195,7 +195,13 @@ router.post("/update_room_type", async (req, res) => {
       images: data.images,
       room_rate: data.room_rate,
       status: data.status,
-      isDeleted: false
+      isDeleted: false,
+      promo: {
+        rate: data.promo.rate,
+        startDate: data.promo.startDate,
+        endDate: data.promo.endDate
+      },
+      isActivePromo: data.isActivePromo
     });
 
 

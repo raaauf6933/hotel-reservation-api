@@ -52,6 +52,7 @@ app.use("/api/admin/discount", discounts);
 app.use("/api/admin/site_settings", site_settings);
 app.use("/api/admin/reviews", require("./routes/reviews"));
 app.use("/api/admin/about_us", require("./routes/about_us"));
+app.use("/api/admin/notification", require("./routes/notification"));
 
 const port = process.env.PORT || 5000;
 app.listen(port, () => console.log(`Listening on port ${port}`));

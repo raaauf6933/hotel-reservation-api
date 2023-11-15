@@ -5,7 +5,12 @@ const validateAmenity = require("./../controller/amenities/validateAmenity");
 
 router.get("/", async (req, res) => {
   try {
-    const result = await Amenities.find();
+    const result = await Amenities.find({
+      $and: [
+        { $or: [{ isDeleted: { $exists: false } }, { isDeleted: false }] },
+        (req.query?.isActive ? { status: 'ACT' }: {}),
+      ],
+    });
     res.status(200).send(result);
   } catch (error) {
     res.status(400).send(error.message);
@@ -32,6 +37,7 @@ router.post("/create_amenity", async (req, res) => {
       name,
       rate,
       status,
+      isDeleted: false,
     });
 
     const result = await amenity.save();
@@ -48,6 +54,20 @@ router.post("/edit_amenity", async (req, res) => {
     const result = await Amenities.findByIdAndUpdate(id, {
       rate,
       status,
+    });
+
+    res.status(200).send(result);
+  } catch (error) {
+    res.status(400).send({ status: "failed", message: error.message });
+  }
+});
+
+router.post("/delete", async (req, res) => {
+  const { id } = req.body;
+
+  try {
+    const result = await Amenities.findByIdAndUpdate(id, {
+      isDeleted: true,
     });
 
     res.status(200).send(result);

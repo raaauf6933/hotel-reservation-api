@@ -60,6 +60,7 @@ module.exports = async (req, res, next) => {
   }
 
   if (getDifference(rooms, room_booking_holder).length === 0) {
+    return next();
     res
       .status(400)
       .send({
