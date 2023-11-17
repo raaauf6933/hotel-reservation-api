@@ -9,6 +9,7 @@ const ADD_AMENITY = "ADD_AMENITY";
 const ADD_DISCOUNT = "ADD_DISCOUNT";
 const CANCELLED = "CANCELLED";
 const GUEST_MODIFY_BOOKING = "GUEST_MODIFY_BOOKING";
+const FEEDBACK = 'FEEDBACK';
 
 exports.createEvent = (type, params) => {
   switch (type) {
@@ -40,6 +41,18 @@ exports.createEvent = (type, params) => {
       return {
         type: "UPDATE_STATUS",
         message: `Booking Status Updated to ${params.status}`,
+        images: [],
+        user: params.user,
+        amount: 0,
+        quantity: 0,
+        discount_type: "",
+        additional_type: "",
+        created: moment.tz("Asia/Manila").format(),
+      };
+    case FEEDBACK:
+      return {
+        type: "FEEDBACK",
+        message: `Guest Feedback -  ${params.message}`,
         images: [],
         user: params.user,
         amount: 0,
@@ -135,4 +148,5 @@ exports.eventType = {
   ADD_DISCOUNT,
   CANCELLED,
   GUEST_MODIFY_BOOKING,
+  FEEDBACK,
 };

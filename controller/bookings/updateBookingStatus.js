@@ -113,7 +113,7 @@ exports.updateConfirmed = ({ id, status, paymentAmount, user_name }) => {
   });
 };
 
-exports.updateCheckIn = ({ id, status, paymentAmount, user_name }) => {
+exports.updateCheckIn = ({ id, status, paymentAmount, user_name, remarks }) => {
   return new Promise(async (resolve, reject) => {
     try {
       // validate payment amount
@@ -151,14 +151,11 @@ exports.updateCheckIn = ({ id, status, paymentAmount, user_name }) => {
         },
       });
 
-      await Bookings.findByIdAndUpdate(id, {
-        $push: {
-          events: createEvent(eventType.PAYMENT_CAPTURED, {
-            user: user_name,
-            amount: paymentAmount,
-          }),
-        },
-      });
+      if(remarks) {
+        await Bookings.findByIdAndUpdate(id, {
+         remarks
+        });
+      }
 
       resolve(result);
     } catch (error) {

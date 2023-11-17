@@ -1,9 +1,10 @@
 const Bookings = require("./../../models/bookings/bookings");
+const SiteSettings = require("./../../models/site_settings");
 const { createEvent, eventType } = require("./../../helpers/events");
 const moment = require("moment-timezone");
 
 module.exports = async (req, res) => {
-  const { id: bookingId, amenity_id, qty } = req.body;
+  const { id: bookingId, amenity_id, qty, type } = req.body;
 
   const { id, rate, name } = JSON.parse(amenity_id);
 
@@ -37,6 +38,17 @@ module.exports = async (req, res) => {
         }),
       },
     });
+
+    if(type && type === "guest"){
+      const settings = await SiteSettings.find();
+      const settingsId = settings[0]._id;
+      const noNotif =  settings[0].noNotif
+
+      await SiteSettings.findByIdAndUpdate(settingsId, {
+        isViewedNotif: false,
+        noNotif: noNotif + 1
+      });
+    }
 
     res.status(200).send(result);
   } catch (error) {

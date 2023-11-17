@@ -22,6 +22,7 @@ const {
 const moment = require("moment-timezone");
 const addDiscount = require("./../controller/bookings/addDiscount");
 const addAmenity = require("./../controller/bookings/addAmenity");
+const deleteAmenity = require("./../controller/bookings/deleteAmenity")
 const auth = require("./../middleware/auth");
 const {
   createOnlineBooking,
@@ -101,7 +102,7 @@ router.post("/create_booking_walkin", createWalkinBooking);
 
 router.post("/update_booking_status", auth, async (req, res) => {
   const { body, user } = req;
-  const { id, status, paymentAmount } = body;
+  const { id, status, paymentAmount, remarks } = body;
 
   const user_name = `${user.first_name} ${user.last_name}`;
 
@@ -120,7 +121,7 @@ router.post("/update_booking_status", auth, async (req, res) => {
         });
         break;
       case bookingStatus.CHECK_IN:
-        result = await updateCheckIn({ id, status, paymentAmount, user_name });
+        result = await updateCheckIn({ id, status, paymentAmount, user_name, remarks });
         break;
       case bookingStatus.CANCELLED:
         result = await cancelBooking({ id, status, user_name });
@@ -161,7 +162,7 @@ router.post(
 
 router.post("/add_amenity", auth, addAmenity);
 
-router.post("/add_discount", auth, addDiscount);
+router.post("/delete_amenity", auth, deleteAmenity);
 
 router.post("/add_discount", auth, addDiscount);
 
@@ -186,6 +187,34 @@ router.post("/change_room", async (req, res)=> {
   } catch (error) {
     return res.status(400).json({error})
   }
+})
+
+
+router.post("/feedback",async(req,res)=> {
+  const {id, feedback, rate} = req.body;
+  const result = await Bookings.findByIdAndUpdate(id, {
+    feedback: {
+      feedback,
+      rate
+    },
+    $push: {
+      events: createEvent(eventType.FEEDBACK, {
+        message: feedback
+      }),
+    },
+  })
+
+  return res.json(result)
+})
+
+router.get("/feedbacks", async(req,res)=> {
+
+
+  const result = await Bookings.find({
+    $or: [{ feedback: { $exists: true } }] 
+  })
+
+  return res.json(result);
 })
 
 module.exports = router;

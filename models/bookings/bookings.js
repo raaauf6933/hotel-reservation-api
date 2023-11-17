@@ -70,6 +70,21 @@ const BookingsSchema = new mongoose.Schema(
         },
       }),
     ],
+    feedback:  new mongoose.Schema({
+      // id: {
+      //   type: String,
+      //   default: mongoose.Types.ObjectId(),
+      // },
+      feedback: {
+        type: String,
+      },
+      rate: {
+        type: Number,
+      },
+    }),
+    remarks: {
+      type: String,
+    }
   },
   {
     timestamps: true,
