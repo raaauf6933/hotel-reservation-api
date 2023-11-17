@@ -10,7 +10,7 @@ module.exports = async (req, res) => {
 
     const additional = booking?.additionals?.find((e) => e._id?.toJSON() === additionalId);
     const newAdditionalTotal= booking?.billing?.additional_total - (additional?.rate * additional?.qty);
-    const newTotal = booking?.billing?.total_amount -  - (additional?.rate * additional?.qty);
+    const newTotal = booking?.billing?.total_amount - (additional?.rate * additional?.qty);
 
 
     const updateResult = await Bookings.findByIdAndUpdate(id, {
